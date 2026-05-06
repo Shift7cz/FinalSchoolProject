@@ -24,7 +24,7 @@ public class DebugCommand : ICommandable
         {
             try
             {
-                switch (input[0].ToLower())
+                switch (input[1].ToLower())
                 {
                     case "true":
                         Print.Debug = true;

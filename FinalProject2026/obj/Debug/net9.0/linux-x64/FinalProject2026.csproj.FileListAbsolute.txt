@@ -197,3 +197,4 @@
 /home/lukas/RiderProjects/FinalProject2026/FinalProject2026/obj/Debug/net9.0/linux-x64/FinalProject2026.pdb
 /home/lukas/RiderProjects/FinalProject2026/FinalProject2026/obj/Debug/net9.0/linux-x64/FinalProject2026.genruntimeconfig.cache
 /home/lukas/RiderProjects/FinalProject2026/FinalProject2026/obj/Debug/net9.0/linux-x64/ref/FinalProject2026.dll
+/home/lukas/RiderProjects/FinalProject2026/FinalProject2026/obj/Debug/net9.0/linux-x64/FinalProject2026.sourcelink.json

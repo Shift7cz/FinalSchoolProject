@@ -79,4 +79,12 @@ public static class Print
     {
         return Console.ReadKey().Key;
     }
+
+    /// <summary>
+    /// Console.Clear() wrapper
+    /// </summary>
+    public static void Clear()
+    {
+        Console.Clear();
+    }
 }

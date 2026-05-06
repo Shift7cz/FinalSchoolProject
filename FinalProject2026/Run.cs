@@ -26,7 +26,9 @@ public class Run
         List<ICommandable> cmndList = new List<ICommandable>()
         {
             new DebugCommand(t, "debug"),
-            new WhoAmICommanad(t, "whoami")
+            new WhoAmICommanad(t, "whoami"),
+            new  NeofetchCommand(t, "neofetch"),
+            new ClearCommand(t, "clear")
         };
             
         t.CommandList = cmndList;

@@ -75,6 +75,8 @@ public class Terminal
 
         while (!hasQuit)
         {
+            bool hasRan = false;
+            
             Print.Out(TerminalString + " ");
             string rawCommand = Print.ReadLn();
             
@@ -87,9 +89,26 @@ public class Terminal
             {
                 if (command[0] == CommandList[i].Name)
                 {
-                    command.RemoveAt(0);
+                    //command.RemoveAt(0);
                     Print.OutLn(CommandList[i].Run(command));
+                    hasRan = true;
                 } 
+            }
+
+            if (!hasRan)
+            {
+                if (command[0] == "quit" && !hasRan)
+                {
+                    hasQuit = true;
+                    hasRan = true;
+                }
+                else // TODO: That did u mean this but u cant write think like in linux terminal
+                {
+                    if (command[0] != "")
+                    {
+                        Print.OutLn("Unknown command: " + command[0]);
+                    }
+                }
             }
         }
     }
