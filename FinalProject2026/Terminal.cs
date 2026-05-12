@@ -12,10 +12,16 @@ public class Terminal
     /// </summary>
     public string TerminalString { get; set; }
     
-    public Terminal(List<ICommandable> commands, string terminalString)
+    /// <summary>
+    /// The class that tracks time and does pulse
+    /// </summary>
+    public Time GameTime { get; set; }
+    
+    public Terminal(List<ICommandable> commands, string terminalString, Time gameTime)
     {
         CommandList = commands;
         TerminalString = terminalString;
+        GameTime = gameTime;
     }
 
     /// <summary>

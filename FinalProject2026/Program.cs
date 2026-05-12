@@ -19,7 +19,7 @@ class Program
          </Project>
          */
         
-        Run run = new Run(true);
-        run.Start();
+        App app = new App(true);
+        app.Run();
     }
 }
