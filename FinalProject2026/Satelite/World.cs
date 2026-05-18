@@ -12,15 +12,11 @@ public class World
     /// </summary>
     public SpaceObject CentralObject { get; set; }
     
-    /// <summary>
-    /// Tracks the current satelites position if empty its not near any.
-    /// </summary>
-    public SpaceObject SatPos{ get; set; }
+    public Satelite Sat { get; set; }
 
-    public World(List<SpaceObject> orbitingObjects, SpaceObject centralObject, SpaceObject satPos)
+    public World(List<SpaceObject> orbitingObjects, SpaceObject centralObject)
     {
         OrbitingObjects = orbitingObjects;
         CentralObject = centralObject;
-        SatPos = satPos;
     }
 }

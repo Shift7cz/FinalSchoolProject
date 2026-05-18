@@ -1,3 +1,5 @@
+using FinalProject2026.Satelite;
+
 namespace FinalProject2026;
 
 public class Terminal
@@ -17,6 +19,11 @@ public class Terminal
     /// </summary>
     public Time GameTime { get; set; }
     
+    /// <summary>
+    /// reference to the world object
+    /// </summary>
+    public World VirtualWorld { get; set; }
+    
     public Terminal(List<ICommandable> commands, string terminalString, Time gameTime)
     {
         CommandList = commands;
@@ -29,7 +36,7 @@ public class Terminal
     /// </summary>
     /// <param name="input">The raw command string</param>
     /// <returns>The splited command List</returns>
-    public List<string> ParseCommand(string input)
+    public static List<string> ParseCommand(string input)
     {
         char devider = ' ';
         string[] devided = input.Split(devider);

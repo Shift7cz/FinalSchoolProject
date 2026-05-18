@@ -49,6 +49,20 @@ public static class Print
         Console.WriteLine(input);
         Console.ResetColor();
     }
+    
+    /// <summary>
+    /// Standard print with newline and ability to set foreground and background color
+    /// </summary>
+    /// <param name="input">What it prints</param>
+    /// <param name="foregroundColor">The foreground color</param>
+    /// <param name="backgroundColor">The background color</param>
+    public static void OutLn(string input, ConsoleColor foregroundColor, ConsoleColor backgroundColor)
+    {
+        Console.ForegroundColor =  foregroundColor;
+        Console.BackgroundColor =  backgroundColor;
+        Console.WriteLine(input);
+        Console.ResetColor();
+    }
 
     /// <summary>
     /// Prints only when debug is enabled - used for debug messages
