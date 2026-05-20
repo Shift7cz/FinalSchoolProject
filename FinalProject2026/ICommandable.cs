@@ -1,5 +1,8 @@
 namespace FinalProject2026;
 
+/// <summary>
+/// Adds features for the command, MANDATORY FOR COMMAND CLASSES
+/// </summary>
 public interface ICommandable
 {
     /// <summary>

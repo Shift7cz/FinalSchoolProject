@@ -1,5 +1,8 @@
 namespace FinalProject2026.Satelite;
 
+/// <summary>
+/// The world the satellite moves in.
+/// </summary>
 public class World
 {
     /// <summary>
@@ -12,7 +15,7 @@ public class World
     /// </summary>
     public SpaceObject CentralObject { get; set; }
     
-    public Satelite Sat { get; set; }
+    public Satellite Sat { get; set; }
 
     public World(List<SpaceObject> orbitingObjects, SpaceObject centralObject)
     {

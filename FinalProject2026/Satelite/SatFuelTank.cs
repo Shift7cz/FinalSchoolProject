@@ -1,5 +1,8 @@
 namespace FinalProject2026.Satelite;
 
+/// <summary>
+/// Class that defines the satellite fuel tank part
+/// </summary>
 public class SatFuelTank : ISatelitePartable
 {
     public string Name { get; set; }

@@ -1,5 +1,8 @@
 namespace FinalProject2026.Commands;
 
+/// <summary>
+/// Clears the terminal (same as in bash)
+/// </summary>
 public class ClearCommand : ICommandable
 {
     public Terminal Term { get; set; }

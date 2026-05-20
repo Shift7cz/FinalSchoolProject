@@ -1,5 +1,8 @@
 namespace FinalProject2026;
 
+/// <summary>
+/// Custom print rapper around Console
+/// </summary>
 public static class Print
 {
     /// <summary>

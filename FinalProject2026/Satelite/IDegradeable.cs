@@ -1,5 +1,8 @@
 namespace FinalProject2026.Satelite;
 
+/// <summary>
+/// Adds option for parts to degrade over time todo: implement
+/// </summary>
 public interface IDegradeable
 {
     /// <summary>

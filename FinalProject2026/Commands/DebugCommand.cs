@@ -2,6 +2,9 @@ using System.Windows.Input;
 
 namespace FinalProject2026.Commands;
 
+/// <summary>
+/// Dev option toggle debug messages
+/// </summary>
 public class DebugCommand : ICommandable
 {
     public Terminal Term { get; set; }
@@ -14,7 +17,7 @@ public class DebugCommand : ICommandable
     }
     
     /// <summary>
-    /// Sets debug to true/false; this is a dev option and doesn't inpact gameplay
+    /// Sets debug to true/false; this is a dev option and doesn't impact gameplay
     /// </summary>
     /// <param name="input">The command list</param>
     /// <returns>String to print</returns>

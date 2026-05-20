@@ -1,5 +1,8 @@
 namespace FinalProject2026.Satelite;
 
+/// <summary>
+/// Battery object
+/// </summary>
 public class SatBattery : ISatelitePartable, IDegradeable
 {
     public string Name { get; set; }

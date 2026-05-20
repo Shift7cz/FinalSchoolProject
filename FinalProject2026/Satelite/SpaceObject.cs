@@ -1,5 +1,8 @@
 namespace FinalProject2026.Satelite;
 
+/// <summary>
+/// Object used in the world to define planets, sun and different bodies
+/// </summary>
 public class SpaceObject
 {
     /// <summary>

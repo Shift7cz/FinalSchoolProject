@@ -2,6 +2,9 @@ using FinalProject2026.Satelite;
 
 namespace FinalProject2026;
 
+/// <summary>
+/// Terlinal calass handeling user inout and calling stuff
+/// </summary>
 public class Terminal
 {
     /// <summary>
@@ -15,20 +18,19 @@ public class Terminal
     public string TerminalString { get; set; }
     
     /// <summary>
-    /// The class that tracks time and does pulse
-    /// </summary>
-    public Time GameTime { get; set; }
-    
-    /// <summary>
-    /// reference to the world object
+    /// Reference to the world object
     /// </summary>
     public World VirtualWorld { get; set; }
     
-    public Terminal(List<ICommandable> commands, string terminalString, Time gameTime)
+    /// <summary>
+    /// The satellite object
+    /// </summary>
+    public Satellite Satellite { get; set; }
+    
+    public Terminal(List<ICommandable> commands, string terminalString)
     {
         CommandList = commands;
         TerminalString = terminalString;
-        GameTime = gameTime;
     }
 
     /// <summary>
@@ -110,7 +112,7 @@ public class Terminal
 
             if (!hasRan)
             {
-                if (command[0] == "quit" && !hasRan)
+                if (command[0] == "quit" && !hasRan) // todo: make it actual object command that saves state and stuff
                 {
                     hasQuit = true;
                     hasRan = true;

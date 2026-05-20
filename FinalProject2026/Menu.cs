@@ -2,15 +2,18 @@ using FinalProject2026.Commands;
 
 namespace FinalProject2026;
 
+/// <summary>
+/// Adds special menus to be used in commands
+/// </summary>
 public static class Menu
 {
     /// <summary>
     /// Makes a select multiple options menu in the console
     /// </summary>
-    /// <param name="options"></param>
-    /// <param name="Options">List of options for the menu</param>
+    /// <param name="title">The title that prints in the top</param>
+    /// <param name="options">List of options for the menu</param>
     /// <returns>List of ints that weare selected</returns>
-    public static List<int> SelectMultiple(List<string> options)
+    public static List<int> SelectMultiple(string title, List<string> options)
     {
         Print.Clear();
         Print.OutDebug("Menu Selectmultiple");
@@ -20,6 +23,7 @@ public static class Menu
 
         while (true)
         {
+            Print.OutLn(title);
             Print.OutLn("Use up ↑↓ keys to move, space to select and enter to confirm and exit.");
 
             for (int i = 0; i < options.Count; i++)

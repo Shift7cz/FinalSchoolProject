@@ -1,5 +1,8 @@
 namespace FinalProject2026.Commands;
 
+/// <summary>
+/// Esteregg command
+/// </summary>
 public class NeofetchCommand : ICommandable
 {
     public Terminal Term { get; set; }

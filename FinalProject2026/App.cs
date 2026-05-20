@@ -5,6 +5,9 @@ using FinalProject2026.Satelite;
 
 namespace FinalProject2026;
 
+/// <summary>
+/// Executes the app
+/// </summary>
 public class App
 {
     /// <summary>
@@ -24,15 +27,14 @@ public class App
     /// </summary>
     public void Run()
     {
-        ResetSavedFiles();
+        ResetSavedFiles(); // todo: make the file reloading be better
+
+        Satellite satellite = new Satellite();
         
-        Time time = new Time();
-        Terminal t = new Terminal(new List<ICommandable>(), ">", time);
-        
-        time.StartPulse(1);
+        Terminal t = new Terminal(new List<ICommandable>(), ">");
 
         Thread terminalThread = new Thread(() => RunTerminal(t)); // wraps the method to make the compiler be quiet
-        Thread enviromentThread = new Thread(() => RunEnviroment(t));
+        Thread enviromentThread = new Thread(() => RunEnviroment(t, satellite));
         
         terminalThread.Start();
         enviromentThread.Start();
@@ -61,10 +63,8 @@ public class App
     /// <summary>
     /// Function to call the "environment/world/satellite part" of the app
     /// </summary>
-    public void RunEnviroment(Terminal t)
+    public void RunEnviroment(Terminal t, Satellite sat)
     {
-        SateliteBuilder sb = new  SateliteBuilder(); // todo: this doesnt belong here move it somewhere it makes sense
-        
         StreamReader sr = new StreamReader("bodies.txt");
 
         List<SpaceObject> bodies = new List<SpaceObject>();
@@ -78,13 +78,19 @@ public class App
 
         World solarSystem = new World(bodies, new SpaceObject("Sun", 0, 333000, 1390000));
 
+        SateliteBuilder builder = new SateliteBuilder();
+
+        sat.Builder = new SateliteBuilder();
+        sat.SolarSystem = solarSystem;
+
+        t.Satellite = sat;
         t.VirtualWorld = solarSystem;
     }
 
     /// <summary>
     /// Resets all the safe files, used in development and when migrating platforms
     /// </summary>
-    public void ResetSavedFiles() // TODO: Dont forget to run this when moving os
+    public void ResetSavedFiles() // TODO: Dont forget to run this when moving os nd find a way tht doesnt jsu move the ugly loading think to different class like this
     {
         string currentPath = Directory.GetCurrentDirectory();
         Print.OutDebug(currentPath);
@@ -121,5 +127,16 @@ public class App
         swFuelTank.WriteLine("InterstellarF`uelTank fuelTank l 310 100 8200 100");
         
         swFuelTank.Close();
+        
+        StreamWriter swEngine = new StreamWriter("satEngine.txt");
+        
+        swEngine.WriteLine("SmallManeuveringEngine engine s 10 100 110 fuel 2");
+        swEngine.WriteLine("IonEngine engine s 10 100 110 electric 20");
+        swEngine.WriteLine("CommercialEngine engine s 160 100 100000 fuel 120");
+        swEngine.WriteLine("9PackIonEngine engine m 90 100 990 electric 180");
+        swEngine.WriteLine("InterplanetaryEngine engine m 2000 100 760000 fuel 320");
+        swEngine.WriteLine("InterstellarEngine engine l 9000 100 1200000 fuel 570");
+        
+        swEngine.Close();
     }
 }

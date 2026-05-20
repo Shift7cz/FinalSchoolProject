@@ -1,5 +1,8 @@
 namespace FinalProject2026.Commands;
 
+/// <summary>
+/// Privides help if user is confused todo: implement it and make oit work it kinda does nothing rn
+/// </summary>
 public class HelpCommand : ICommandable
 {
     public Terminal Term { get; set; }
