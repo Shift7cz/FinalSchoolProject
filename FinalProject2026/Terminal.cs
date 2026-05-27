@@ -51,7 +51,7 @@ public class Terminal
     /// <param name="message">Custom message for the user</param>
     /// <param name="recomended">Which option is recommended. always enter lowercase, leve blanc for n recommendation</param>
     /// <returns>y = true; n = false; returns bool based on user response</returns>
-    public bool YNoption(string message, char recomended)
+    public static bool YNoption(string message, char recomended)
     {
         switch (recomended)
         {
@@ -115,7 +115,6 @@ public class Terminal
                 if (command[0] == "quit" && !hasRan) // todo: make it actual object command that saves state and stuff
                 {
                     hasQuit = true;
-                    hasRan = true;
                 }
                 else // TODO: That did u mean this but u cant write think like in linux terminal
                 {

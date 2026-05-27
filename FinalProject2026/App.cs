@@ -68,20 +68,21 @@ public class App
         StreamReader sr = new StreamReader("bodies.txt");
 
         List<SpaceObject> bodies = new List<SpaceObject>();
-        
+        SpaceObject centralBody = new SpaceObject("Sun", 0, 333000, 1390000, 0);
+
         string line;
         while ((line = sr.ReadLine()) != null)
         {
             List<string> bodiesParams = Terminal.ParseCommand(line);
-            bodies.Add(new SpaceObject(bodiesParams[0], int.Parse(bodiesParams[1]), double.Parse(bodiesParams[2]), int.Parse(bodiesParams[3])));
+            bodies.Add(new SpaceObject(bodiesParams[0], int.Parse(bodiesParams[1]), double.Parse(bodiesParams[2]), int.Parse(bodiesParams[3]), double.Parse(bodiesParams[4])));
         }
 
-        World solarSystem = new World(bodies, new SpaceObject("Sun", 0, 333000, 1390000));
-
-        SateliteBuilder builder = new SateliteBuilder();
-
+        World solarSystem = new World(bodies, centralBody);
+        
         sat.Builder = new SateliteBuilder();
         sat.SolarSystem = solarSystem;
+        sat.PosTracker = new PositionTracker(150, 0);
+
 
         t.Satellite = sat;
         t.VirtualWorld = solarSystem;
@@ -97,15 +98,15 @@ public class App
         
         StreamWriter swBodies = new StreamWriter("bodies.txt");
         
-        swBodies.WriteLine("Mercury 58 0.055 4880 ");
-        swBodies.WriteLine("Venus 108 0.815 12104");
-        swBodies.WriteLine("Earth 150 1 12756");
-        swBodies.WriteLine("Mars 150 0.107 6779");
-        swBodies.WriteLine("Jupiter 786 317.8 139820");
-        swBodies.WriteLine("Saturn 1434 95.16 116464");
-        swBodies.WriteLine("Uranus 2870 14.54 50720");
-        swBodies.WriteLine("Neptune 4500 17.15 49528");
-        swBodies.WriteLine("Pluto 5900 0.0022 2376");
+        swBodies.WriteLine("Mercury 58 0.055 4880 4.09");
+        swBodies.WriteLine("Venus 108 0.815 12104 1.602");
+        swBodies.WriteLine("Earth 150 1 12756 0.986");
+        swBodies.WriteLine("Mars 228 0.107 6779 0.524");
+        swBodies.WriteLine("Jupiter 786 317.8 139820 0.038");
+        swBodies.WriteLine("Saturn 1434 95.16 116464 0.033");
+        swBodies.WriteLine("Uranus 2870 14.54 50720 0.0117");
+        swBodies.WriteLine("Neptune 4500 17.15 49528 0.0059");
+        swBodies.WriteLine("Pluto 5900 0.0022 2376 0.00403");
         
         swBodies.Close();
         

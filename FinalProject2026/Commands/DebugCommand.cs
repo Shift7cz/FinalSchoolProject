@@ -23,7 +23,7 @@ public class DebugCommand : ICommandable
     /// <returns>String to print</returns>
     public string Run(List<string> input)
     {
-        if (Term.YNoption("This command is a dev option. Do you want to continue?", 'n'))
+        if (Terminal.YNoption("This command is a dev option. Do you want to continue?", 'n'))
         {
             try
             {
