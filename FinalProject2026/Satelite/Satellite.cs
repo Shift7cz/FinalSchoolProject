@@ -38,9 +38,9 @@ public class Satellite
     /// </summary>
     /// <returns>The acceleration</returns>
     public double GetAcceleration()
-    {
-        int thrust = 0;
-        int weight = 0;
+    { 
+        double thrust = 0;
+        double weight = 0;
         
         for (int i = 0; i < SatEngine.Count; i++)
         {
@@ -66,7 +66,7 @@ public class Satellite
     /// </summary>
     /// <param name="newHeight">Target orbital height</param>
     /// <returns>Returns true if its possible, returns false if it's impossible or if user cancels</returns>
-    public bool MoveOrbitalHeight(int newHeight) // todo make this take time
+    public bool ChangeOrbitalHeight(int newHeight) // todo make this take time
     {
         int deltaR = Math.Abs(newHeight - PosTracker.Distance);
         int totalFuelConsumption = 0;
@@ -127,23 +127,26 @@ public class Satellite
         }
         
         double burnTime = Math.Abs(deltaVSec) / GetAcceleration();
-        double fuelUsed = totalFuelConsumption * burnTime; // in l
+        double fuelUsed = totalFuelConsumption * burnTime * 100000; // in l; 100000x multiplier to fix the math not working for game balancing
         
         if (fuelUsed > allFuel)
         {
             return false;
         }
 
-        if (!Terminal.YNoption("Do you want to travel? Total fuel consumed " + fuelUsed + "L out of " + allFuel + "L and maneuver will take " + burnTime/86400 + " days ?",
+        if (!Terminal.YNoption("Do you want to travel? Total fuel consumed " + fuelUsed + "L out of " + allFuel + "L ?",
                 'y'))
         {
             return false;
         }
 
         PosTracker.AngularSpeed = newSpeed;
-        Warp.SkipTime((int)burnTime/86400);
         return true;
     }
-    
-    // TODO: central body gravity?
+
+    public void ChangeOrbitalPos(double newPos, double newSpeed) // todo
+    {
+        ChageOrbitalSpeed(newSpeed + 10); 
+        ChageOrbitalSpeed(newSpeed);
+    }
 }

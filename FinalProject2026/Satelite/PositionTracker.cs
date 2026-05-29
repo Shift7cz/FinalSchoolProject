@@ -17,10 +17,9 @@ public class PositionTracker
     /// </summary>
     public double AngularSpeed { get; set; }
 
-    public PositionTracker(int distance, int orbitalPos)
+    public PositionTracker(int distance, double angularSpeed)
     {
         Distance = distance;
-        OrbitalPos = orbitalPos;
     }
     
     

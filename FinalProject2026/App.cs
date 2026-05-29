@@ -82,7 +82,7 @@ public class App
         
         sat.Builder = new SateliteBuilder();
         sat.SolarSystem = solarSystem;
-        sat.PosTracker = new PositionTracker(150, 0);
+        sat.PosTracker = new PositionTracker(150, 0.986);
 
 
         t.Satellite = sat;

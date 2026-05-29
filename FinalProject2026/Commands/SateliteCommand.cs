@@ -1,4 +1,3 @@
-using System.Windows.Input;
 using FinalProject2026.Satelite;
 
 namespace FinalProject2026.Commands;
@@ -24,7 +23,7 @@ public class SateliteCommand : ICommandable
     
     public string Run(List<string> input)
     {
-        _returnValue = ""; // resets _returnValue to prevent functions returning previous returnable
+        _returnValue = ""; // resets _returnValue to prevent functions returning previous returns
         
         try
         {
@@ -69,7 +68,7 @@ public class SateliteCommand : ICommandable
                                 Print.OutLn("Please enter valid whole number");
                             }
                             
-                            if (Term.Satellite.MoveOrbitalHeight(targetHeight))
+                            if (Term.Satellite.ChangeOrbitalHeight(targetHeight))
                             {
                                 _returnValue = "Travel passed successfully";
                                 break;
@@ -77,15 +76,15 @@ public class SateliteCommand : ICommandable
 
                             _returnValue = "Travel is impossible or user canceled it";
                             break;
-                        case "position": // todo: find better name
-                            Print.OutLn("Please enter desired angular speed in degrees/day. Current angular speed is " + Term.Satellite.PosTracker.Distance + " deg/day: ");
-                            int targetSpeed;
-                            while (!int.TryParse(Print.ReadLn(), out targetSpeed))
+                        case "speed":
+                            Print.OutLn("Please enter desired angular speed in degrees/day. Current angular speed is " + Term.Satellite.PosTracker.AngularSpeed + " deg/day: ");
+                            double targetSpeed;
+                            while (!double.TryParse(Print.ReadLn(), out targetSpeed))
                             {
                                 Print.OutLn("Please enter valid number");
                             }
                             
-                            if (Term.Satellite.MoveOrbitalHeight(targetSpeed))
+                            if (Term.Satellite.ChageOrbitalSpeed(targetSpeed))
                             {
                                 _returnValue = "Travel passed successfully";
                                 break;

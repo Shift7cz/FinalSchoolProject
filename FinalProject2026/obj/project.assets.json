@@ -2,7 +2,7 @@
   "version": 3,
   "targets": {
     "net9.0": {
-      "Microsoft.NET.ILLink.Tasks/9.0.14": {
+      "Microsoft.NET.ILLink.Tasks/9.0.16": {
         "type": "package",
         "build": {
           "build/Microsoft.NET.ILLink.Tasks.props": {}
@@ -10,7 +10,7 @@
       }
     },
     "net9.0/linux-x64": {
-      "Microsoft.NET.ILLink.Tasks/9.0.14": {
+      "Microsoft.NET.ILLink.Tasks/9.0.16": {
         "type": "package",
         "build": {
           "build/Microsoft.NET.ILLink.Tasks.props": {}
@@ -19,10 +19,10 @@
     }
   },
   "libraries": {
-    "Microsoft.NET.ILLink.Tasks/9.0.14": {
-      "sha512": "+MeWjj5sGq6Oj/l0E9RPMgXDyCIPxczzCbGuvuVTZFEGiy2S/atsfoAoKUnkEin/GeGpN+HenCzRmiQKSc99eQ==",
+    "Microsoft.NET.ILLink.Tasks/9.0.16": {
+      "sha512": "ccPBYGLPJt8DeJTUzQ0JzOh/iuUAgnjayU63PokVywAhUOx+dzDKSPTL7AG94U/VpvNXflTT2AjsFAIF1+bXBw==",
       "type": "package",
-      "path": "microsoft.net.illink.tasks/9.0.14",
+      "path": "microsoft.net.illink.tasks/9.0.16",
       "hasTools": true,
       "files": [
         ".nupkg.metadata",
@@ -36,7 +36,7 @@
         "build/Microsoft.NET.ILLink.Analyzers.props",
         "build/Microsoft.NET.ILLink.Tasks.props",
         "build/Microsoft.NET.ILLink.targets",
-        "microsoft.net.illink.tasks.9.0.14.nupkg.sha512",
+        "microsoft.net.illink.tasks.9.0.16.nupkg.sha512",
         "microsoft.net.illink.tasks.nuspec",
         "tools/net472/ILLink.Tasks.dll",
         "tools/net472/ILLink.Tasks.dll.config",
@@ -73,7 +73,7 @@
   },
   "projectFileDependencyGroups": {
     "net9.0": [
-      "Microsoft.NET.ILLink.Tasks >= 9.0.14"
+      "Microsoft.NET.ILLink.Tasks >= 9.0.16"
     ]
   },
   "packageFolders": {
@@ -82,11 +82,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/home/lukas/RiderProjects/FinalProject2026/FinalProject2026/FinalProject2026.csproj",
+      "projectUniqueName": "/home/lukas/RiderProjects/FinalSchoolProject/FinalProject2026/FinalProject2026.csproj",
       "projectName": "FinalProject2026",
-      "projectPath": "/home/lukas/RiderProjects/FinalProject2026/FinalProject2026/FinalProject2026.csproj",
+      "projectPath": "/home/lukas/RiderProjects/FinalSchoolProject/FinalProject2026/FinalProject2026.csproj",
       "packagesPath": "/home/lukas/.nuget/packages/",
-      "outputPath": "/home/lukas/RiderProjects/FinalProject2026/FinalProject2026/obj/",
+      "outputPath": "/home/lukas/RiderProjects/FinalSchoolProject/FinalProject2026/obj/",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "/home/lukas/.nuget/NuGet/NuGet.Config"
@@ -113,7 +113,7 @@
         "auditLevel": "low",
         "auditMode": "direct"
       },
-      "SdkAnalysisLevel": "9.0.100"
+      "SdkAnalysisLevel": "9.0.300"
     },
     "frameworks": {
       "net9.0": {
@@ -122,7 +122,7 @@
           "Microsoft.NET.ILLink.Tasks": {
             "suppressParent": "All",
             "target": "Package",
-            "version": "[9.0.14, )",
+            "version": "[9.0.16, )",
             "autoReferenced": true
           }
         },
@@ -139,20 +139,12 @@
         "warn": true,
         "downloadDependencies": [
           {
-            "name": "Microsoft.AspNetCore.App.Ref",
-            "version": "[9.0.14, 9.0.14]"
-          },
-          {
             "name": "Microsoft.AspNetCore.App.Runtime.linux-x64",
-            "version": "[9.0.14, 9.0.14]"
-          },
-          {
-            "name": "Microsoft.NETCore.App.Host.linux-x64",
-            "version": "[9.0.14, 9.0.14]"
+            "version": "[9.0.16, 9.0.16]"
           },
           {
             "name": "Microsoft.NETCore.App.Runtime.linux-x64",
-            "version": "[9.0.14, 9.0.14]"
+            "version": "[9.0.16, 9.0.16]"
           }
         ],
         "frameworkReferences": {
@@ -160,7 +152,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "/usr/share/dotnet/sdk/9.0.115/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "/home/lukas/.dotnet/sdk/9.0.314/PortableRuntimeIdentifierGraph.json"
       }
     },
     "runtimes": {
