@@ -54,6 +54,7 @@ public class App
             new ClearCommand(t, "clear"),
             new HelpCommand(t, "help"),
             new SateliteCommand(t, "sat"),
+            new TimeCommand(t, "time"),
         };
             
         t.CommandList = cmndList;
@@ -86,6 +87,7 @@ public class App
 
         t.Satellite = sat;
         t.VirtualWorld = solarSystem;
+        Warp.Sat = sat;
     }
 
     /// <summary>

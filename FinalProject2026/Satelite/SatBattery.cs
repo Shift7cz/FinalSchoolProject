@@ -49,9 +49,4 @@ public class SatBattery : ISatelitePartable, IDegradeable
     {
         MaxChargeLevel = Capacity - (100 - Hp); 
     }
-    
-    public void RecalculateHp() // todo
-    {
-        throw new NotImplementedException();
-    }
 } 

@@ -28,7 +28,7 @@ public class SpaceObject
     /// <summary>
     /// Orbital position in degrees
     /// </summary>
-    public int OrbitalPos{get; set;} // todo: make this work
+    public double OrbitalPos{get; set;} // todo: make this work
     
     /// <summary>
     /// Angular speed used for calculating orbit in warp in deg/day
@@ -37,12 +37,30 @@ public class SpaceObject
 
     public SpaceObject(string name, int distance, double weight, int diameter, double angularSpeed)
     {
+        Random rnd = new Random();
+        
         Name = name;
         Distance = distance;
         Weight = weight;
         Diameter = diameter;
-        OrbitalPos = 0;
+        OrbitalPos = rnd.Next(0, 360);
         AngularSpeed = angularSpeed;
+    }
+
+    /// <summary>
+    /// Adds orbital pos and angular speed based so it doesn't overflow 360° (Max degrees value)
+    /// </summary>
+    /// <param name="value"></param>
+    public void AddOrbitalPos(double value)
+    {
+        if (OrbitalPos + value > 360)
+        {
+            OrbitalPos = OrbitalPos + value - 360;
+        }
+        else
+        {
+            OrbitalPos += value;
+        }
     }
 
     public override string ToString()
@@ -51,6 +69,6 @@ public class SpaceObject
         {
             return Name + " -> Weight: " + Weight + " Earth Masses; Diameter: " + Diameter + " km" ;
         }
-        return Name + " -> Distance: " + Distance + " million km from the sun; Weight: " + Weight + " Earth Masses; Diameter: " + Diameter + " km; Orbital position: " + OrbitalPos + "°; Angular speed: " + AngularSpeed + " deg/day;";
+        return Name + " -> Distance: " + Distance + " million km from the sun; Orbital position: " + OrbitalPos + "°; Angular speed: " + AngularSpeed + " deg/day;";
     }
 }

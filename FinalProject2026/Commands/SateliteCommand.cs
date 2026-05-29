@@ -62,7 +62,7 @@ public class SateliteCommand : ICommandable
                     switch (input[2].ToLower())
                     {
                         case "height":
-                            Print.OutLn("Please enter desired height in million km, current height of orbit around the sun is" + Term.Satellite.PosTracker.Distance + " million km: ");
+                            Print.OutLn("Please enter desired height in million km, current height of orbit around the sun is " + Term.Satellite.PosTracker.Distance + " million km: ");
                             int targetHeight;
                             while (!int.TryParse(Print.ReadLn(), out targetHeight))
                             {
@@ -77,6 +77,22 @@ public class SateliteCommand : ICommandable
 
                             _returnValue = "Travel is impossible or user canceled it";
                             break;
+                        case "position": // todo: find better name
+                            Print.OutLn("Please enter desired angular speed in degrees/day. Current angular speed is " + Term.Satellite.PosTracker.Distance + " deg/day: ");
+                            int targetSpeed;
+                            while (!int.TryParse(Print.ReadLn(), out targetSpeed))
+                            {
+                                Print.OutLn("Please enter valid number");
+                            }
+                            
+                            if (Term.Satellite.MoveOrbitalHeight(targetSpeed))
+                            {
+                                _returnValue = "Travel passed successfully";
+                                break;
+                            }
+
+                            _returnValue = "Travel is impossible or user canceled it";
+                            break;
                     }
                     break;
             }
@@ -84,13 +100,14 @@ public class SateliteCommand : ICommandable
         catch (Exception e)
         {
             Print.OutDebug(e.Message);
+            Print.OutLn("Bad requesr. Type help for help");
         }
 
         if (_returnValue != string.Empty)
         {
             return _returnValue;
         }
-        return "Requires an option. Type help for help";
+        return "";
     }
 
     /// <summary>
@@ -151,8 +168,7 @@ public class SateliteCommand : ICommandable
 
         if (!Terminal.YNoption("Are you sure you want to create this satellite?", ' ')) // todo: make this display parts
             return;
-
-        Print.OutDebug("Loop of loops entering");
+        
         for (int i = 0; i < selectedInt.Count; i++) // todo: make this not be the loop with extended family ahh
         {
             Print.OutDebug("i = " + i);
