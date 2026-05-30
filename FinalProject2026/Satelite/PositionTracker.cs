@@ -22,20 +22,39 @@ public class PositionTracker
         Distance = distance;
     }
     
+    /// <summary>
+    /// Adds orbital pos by using ClaculateOrbitalPos() so it doesnt overflow
+    /// </summary>
+    /// <param name="value">How much to add</param>
+    /// <returns>Retnrs orbital pos</returns>
+    public double AddOrbitalPos(double value)
+    {
+        OrbitalPos = CalculateOrbitalPos(value);
+        return OrbitalPos;
+    }
     
     /// <summary>
-    /// Adds orbital pos and angular speed based so it doesn't overflow 360° (Max degrees value)
+    /// Calculates what would orbital pos be after adding value (so it doesn't overflow), doest change the original variable
     /// </summary>
-    /// <param name="value"></param>
-    public void AddOrbitalPos(double value)
+    /// <param name="value">How much to add</param>
+    /// <returns>How much would it add up to</returns>
+    public double CalculateOrbitalPos(double value)
     {
-        if (OrbitalPos + value > 360)
+        double orbitalPos = OrbitalPos;
+        if (orbitalPos + value > 360)
         {
-            OrbitalPos = OrbitalPos + value - 360;
+            orbitalPos = orbitalPos + value - 360;
         }
         else
         {
-            OrbitalPos += value;
+            orbitalPos += value;
         }
+        
+        if (orbitalPos > 360)
+        {
+            orbitalPos = 360;
+        }
+        
+        return orbitalPos;
     }
 }

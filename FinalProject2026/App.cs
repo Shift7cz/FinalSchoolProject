@@ -1,6 +1,4 @@
 using FinalProject2026.Commands;
-using System;
-using System.Threading;
 using FinalProject2026.Satelite;
 
 namespace FinalProject2026;
@@ -19,8 +17,7 @@ public class App
     {
         Debug = doDebug;
         Print.Debug = Debug;
-        
-    }
+    } // todo: make this not be buns
     
     /// <summary>
     /// The start method - strats everything needed for running, does multithreading

@@ -31,15 +31,15 @@ public class SateliteCommand : ICommandable
             switch (input[1].ToLower())
             {
                 case "new": // TODO remake this to dynamic stalemate body system ts is ugly af and temporary af
-                        OptionNew();
+                    OptionNew();
                     break;
-                
+
                 case "list":
                     _returnValue = "Batteries\n";
-                    
+
                     for (int i = 0; i < Term.Satellite.SatBattery.Count; i++)
                     {
-                        _returnValue += " | " +  Term.Satellite.SatBattery[i].Name + " \n";
+                        _returnValue += " | " + Term.Satellite.SatBattery[i].Name + " \n";
                     }
 
                     _returnValue += "\nFuel Tanks\n";
@@ -56,43 +56,14 @@ public class SateliteCommand : ICommandable
                         _returnValue += " | " + Term.Satellite.SatEngine[i].Name + "\n";
                     }
 
+                    _returnValue += "\n\nPosition Data\n";
+                    _returnValue += " | Distance: " + Term.Satellite.PosTracker.Distance + " million Km\n";
+                    _returnValue += " | Angular Speed: " + Term.Satellite.PosTracker.AngularSpeed + " deg/day\n";
+                    _returnValue += " | Orbital Position: " + Term.Satellite.PosTracker.OrbitalPos + " °\n";
+
                     break;
                 case "travel":
-                    switch (input[2].ToLower())
-                    {
-                        case "height":
-                            Print.OutLn("Please enter desired height in million km, current height of orbit around the sun is " + Term.Satellite.PosTracker.Distance + " million km: ");
-                            int targetHeight;
-                            while (!int.TryParse(Print.ReadLn(), out targetHeight))
-                            {
-                                Print.OutLn("Please enter valid whole number");
-                            }
-                            
-                            if (Term.Satellite.ChangeOrbitalHeight(targetHeight))
-                            {
-                                _returnValue = "Travel passed successfully";
-                                break;
-                            }
-
-                            _returnValue = "Travel is impossible or user canceled it";
-                            break;
-                        case "speed":
-                            Print.OutLn("Please enter desired angular speed in degrees/day. Current angular speed is " + Term.Satellite.PosTracker.AngularSpeed + " deg/day: ");
-                            double targetSpeed;
-                            while (!double.TryParse(Print.ReadLn(), out targetSpeed))
-                            {
-                                Print.OutLn("Please enter valid number");
-                            }
-                            
-                            if (Term.Satellite.ChageOrbitalSpeed(targetSpeed))
-                            {
-                                _returnValue = "Travel passed successfully";
-                                break;
-                            }
-
-                            _returnValue = "Travel is impossible or user canceled it";
-                            break;
-                    }
+                    TravelOption(input);
                     break;
             }
         }
@@ -110,7 +81,7 @@ public class SateliteCommand : ICommandable
     }
 
     /// <summary>
-    /// Wraps the new option in command witch so the switch doesn't have 100+ lines
+    /// Wraps the new option command witch so the switch doesn't have 100+ lines
     /// </summary>
     private void OptionNew()
     {
@@ -205,5 +176,72 @@ public class SateliteCommand : ICommandable
         }
 
         Print.OutDebug("Finished");
+    }
+
+    /// <summary>
+    /// Wraps the trave option command witch so the switch doesn't have 100+ lines
+    /// </summary>
+    /// <param name="input">The input command list</param>
+    private void TravelOption(List<string> input) // todo: quit function
+    {
+        switch (input[2].ToLower())
+        {
+            case "height":
+                Print.OutLn("Please enter desired height in million km, current height of orbit around the sun is " +
+                            Term.Satellite.PosTracker.Distance + " million km: ");
+                int targetHeight;
+                while (!int.TryParse(Print.ReadLn(), out targetHeight))
+                {
+                    Print.OutLn("Please enter valid whole number");
+                }
+
+                _returnValue += Term.Satellite.ChangeOrbitalHeight(targetHeight);
+                break;
+            case "speed":
+                Print.OutLn("Please enter desired angular speed in degrees/day. Current angular speed is " +
+                            Term.Satellite.PosTracker.AngularSpeed + " deg/day: ");
+                double targetSpeed;
+                while (!double.TryParse(Print.ReadLn(), out targetSpeed))
+                {
+                    Print.OutLn("Please enter valid number");
+                }
+
+                _returnValue += Term.Satellite.ChageOrbitalSpeed(targetSpeed);
+                break;
+            case "snap":
+                Print.OutLn("Please enter desired angular speed in degrees/day. Current angular speed is " +
+                            Term.Satellite.PosTracker.AngularSpeed +
+                            " deg/day. Note that this command is only for fine adjustments up to 1 deg/day : ");
+                double targetSpeedSnap;
+                while (!double.TryParse(Print.ReadLn(), out targetSpeedSnap))
+                {
+                    Print.OutLn("Please enter valid number");
+                }
+
+                Print.OutLn("Please enter desired orbital position in degrees. Current position is " +
+                            Term.Satellite.PosTracker.AngularSpeed +
+                            " °. Note that this command is only for fine adjustments up to 2° : ");
+                double targetPosSnap;
+                while (!double.TryParse(Print.ReadLn(), out targetPosSnap))
+                {
+                    Print.OutLn("Please enter valid number");
+                }
+
+                _returnValue += Term.Satellite.SnapOrbit(targetPosSnap, targetSpeedSnap);
+                break;
+            case "body":
+                Print.OutLn("Enter to which body do u want to travel to. Keep in mind that you have to be on the same height to reach its actuall position. Use sat travel height to do so if you haven't already: ");
+                string targetBody = Print.ReadLn();
+                
+                Print.OutLn("Enter target time in days for the transition. Keep in mind that shorter time resoults in less fuel usage: ");
+                int targetDays;
+                while (!int.TryParse(Print.ReadLn(), out targetDays))
+                {
+                    Print.OutLn("Please enter valid whole number");
+                }
+                
+                _returnValue = Term.Satellite.ChangePosition(targetBody, targetDays);
+                break;
+        }
     }
 }
