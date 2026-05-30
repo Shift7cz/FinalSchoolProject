@@ -65,22 +65,7 @@ public class SpaceObject
     /// <returns>How much would it add up to</returns>
     public double CalculateOrbitalPos(double value)
     {
-        double orbitalPos = OrbitalPos;
-        if (orbitalPos + value > 360)
-        {
-            orbitalPos = orbitalPos + value - 360;
-        }
-        else
-        {
-            orbitalPos += value;
-        }
-        
-        if (orbitalPos > 360)
-        {
-            orbitalPos = 360;
-        }
-        
-        return orbitalPos;
+        return (OrbitalPos + value) % 360;
     }
 
     public override string ToString()

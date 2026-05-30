@@ -70,6 +70,7 @@ public class SateliteCommand : ICommandable
         catch (Exception e)
         {
             Print.OutDebug(e.Message);
+            Console.WriteLine(e);
             Print.OutLn("Bad requesr. Type help for help");
         }
 
@@ -87,7 +88,7 @@ public class SateliteCommand : ICommandable
     {
         Print.OutDebug("new option");
 
-        if (Term.VirtualWorld.Sat != null)
+        if (Term.Satellite.IsConfigured)
         {
             bool proceed =
                 Terminal.YNoption(
@@ -95,7 +96,9 @@ public class SateliteCommand : ICommandable
                     'n');
             if (proceed) return;
         }
-
+        
+        Term.Satellite.IsConfigured = true;
+        
         Print.Out("Enter name of your satellite: ");
         string name = Print.ReadLn();
 

@@ -7,6 +7,8 @@ public class Satellite
 {
     public string Name { get; set; }
     
+    public bool IsConfigured { get; set; }
+    
     /// <summary>
     /// World object used for positioning the satellite and for passing world data to terminal
     /// </summary>
@@ -212,6 +214,8 @@ public class Satellite
         ChageOrbitalSpeed(requiredSpeed);
         
         Warp.SkipTime(targetDays);
+        
+        PosTracker.OrbitalPos = targetPos;
         
         return "Maneuver successful";
     }

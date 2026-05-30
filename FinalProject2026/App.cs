@@ -29,12 +29,9 @@ public class App
         Satellite satellite = new Satellite();
         
         Terminal t = new Terminal(new List<ICommandable>(), ">");
-
-        Thread terminalThread = new Thread(() => RunTerminal(t)); // wraps the method to make the compiler be quiet
-        Thread enviromentThread = new Thread(() => RunEnviroment(t, satellite));
+        RunTerminal(t);
         
-        terminalThread.Start();
-        enviromentThread.Start();
+        RunEnviroment(t, satellite);
     }
 
     /// <summary>
@@ -80,10 +77,11 @@ public class App
         sat.Builder = new SateliteBuilder();
         sat.SolarSystem = solarSystem;
         sat.PosTracker = new PositionTracker(150, 0.986);
-
+        sat.IsConfigured = false;
 
         t.Satellite = sat;
         t.VirtualWorld = solarSystem;
+        t.VirtualWorld.Sat = sat;
         Warp.Sat = sat;
     }
 
