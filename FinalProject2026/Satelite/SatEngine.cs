@@ -17,12 +17,12 @@ public class SatEngine : ISatelitePartable
     public int Thrust { get; set; }
     
     /// <summary>
-    /// Can be either "electric" or "fuel"
+    /// Can be either "electric" or "fuel" (Not implemented)
     /// </summary>
-    public string FuelType { get; set; }
+    public string FuelType { get; set;  }
     
     /// <summary>
-    /// How much fule does the engine eat in L/s for fuel or kwh for electric
+    /// How much fuel does the engine eat in L/s
     /// </summary>
     public int FuelConsumption { get; set; }
 

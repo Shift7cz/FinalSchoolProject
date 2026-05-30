@@ -17,9 +17,10 @@ public class World
     
     public Satellite Sat { get; set; }
 
-    public World(List<SpaceObject> orbitingObjects, SpaceObject centralObject)
+    public World(List<SpaceObject> orbitingObjects, SpaceObject centralObject, Satellite sat)
     {
         OrbitingObjects = orbitingObjects;
         CentralObject = centralObject;
+        Sat = sat;
     }
 }

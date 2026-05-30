@@ -1,9 +1,12 @@
 namespace FinalProject2026.Satelite;
 
+/// <summary>
+/// Tracks position of satellite object. Works similar to SpaceObject
+/// </summary>
 public class PositionTracker
 {
     /// <summary>
-    /// Orbiting distance from central object in million km
+    /// Orbiting distance from central object in millions km
     /// </summary>
     public int Distance{ get; set; }
     
@@ -20,10 +23,11 @@ public class PositionTracker
     public PositionTracker(int distance, double angularSpeed)
     {
         Distance = distance;
+        AngularSpeed = angularSpeed;
     }
     
     /// <summary>
-    /// Adds orbital pos by using ClaculateOrbitalPos() so it doesnt overflow
+    /// Adds orbital pos by using CalculateOrbitalPos() so it doesnt overflow
     /// </summary>
     /// <param name="value">How much to add</param>
     /// <returns>Retnrs orbital pos</returns>

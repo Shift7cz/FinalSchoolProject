@@ -12,33 +12,50 @@ public static class Warp
     /// </summary>
     public static int MissionTime { get; set; }
     
-    public static Satellite Sat { get; set; }
+    public static Satellite? Sat { get; set; }
 
     /// <summary>
     /// Skips time, calculates degradation and movement, des loading screen
     /// </summary>
     /// <param name="ammount"></param>
-    public static void SkipTime(int ammount)
+    public static bool SkipTime(int ammount)
     {
+        if (ammount > 10000)
+        {
+            Print.OutLn("Cannot warp more than 10000 days");
+            return false;
+        }
+        
         string statusString = "Warp progress: [                    ]";
         int lastPercent = 0;
         
         for (int i = 0; i < ammount; i++)
         {
-            for (int j = 0; j < Sat.SatBattery.Count; j++)
+            if (Sat != null)
             {
-                if (i % Sat.SatBattery[j].DegradeTime == 0)
+                for (int j = 0; j < Sat.SatBattery.Count; j++)
                 {
-                    Sat.SatBattery[j].Hp -= 1;
-                    Sat.SatBattery[j].RecalculateMaxChargeLevel();
+                    if (i % Sat.SatBattery[j].DegradeTime == 0)
+                    {
+                        Sat.SatBattery[j].Hp -= 1;
+                        Sat.SatBattery[j].RecalculateMaxChargeLevel();
+                    }
                 }
             }
-            for (int j = 0; j < Sat.SolarSystem.OrbitingObjects.Count; j++)
+
+            if (Sat != null && Sat.SolarSystem != null)
             {
-                Sat.SolarSystem.OrbitingObjects[j].AddOrbitalPos(Sat.SolarSystem.OrbitingObjects[j].AngularSpeed);
+                for (int j = 0; j < Sat.SolarSystem.OrbitingObjects.Count; j++)
+                {
+                    Sat.SolarSystem.OrbitingObjects[j].AddOrbitalPos(Sat.SolarSystem.OrbitingObjects[j].AngularSpeed);
+                }
+            }
+            else
+            {
+                Print.OutDebug("Sat or Sat.SolarSystem are null");
             }
 
-            Sat.PosTracker.AddOrbitalPos(Sat.PosTracker.AngularSpeed);
+            Sat?.PosTracker?.AddOrbitalPos(Sat.PosTracker.AngularSpeed);
             MissionTime++;
             
             int percentPassed = (int)((double)i/ammount * 100);
@@ -70,5 +87,6 @@ public static class Warp
             Thread.Sleep(4); // adds small thread sleep if skip time skip is too little to make the user appreciate this stupid lading bar
         }
         Print.Clear();
+        return true;
     }
 }

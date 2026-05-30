@@ -1,4 +1,0 @@
-aaaBatteryPack battery s 1 1200 100 100 1 100
-SmallBattery battery s 12 1200 100 100 120 100
-MediumBattery battery m 56 1800 100 100 480 100
-LargeBattery battery l 128 2400 100 100 1100 100

@@ -19,6 +19,7 @@ public class SateliteCommand : ICommandable
     {
         Term = term;
         Name = name;
+        _returnValue = "";
     }
     
     public string Run(List<string> input)
@@ -30,36 +31,50 @@ public class SateliteCommand : ICommandable
             Print.OutDebug("Entering SatelliteCommand");
             switch (input[1].ToLower())
             {
-                case "new": // TODO remake this to dynamic stalemate body system ts is ugly af and temporary af
+                case "new":
                     OptionNew();
                     break;
 
-                case "list":
-                    _returnValue = "Batteries\n";
+                case "status":
+                    
 
-                    for (int i = 0; i < Term.Satellite.SatBattery.Count; i++)
+                    if (Term.Satellite != null)
                     {
-                        _returnValue += " | " + Term.Satellite.SatBattery[i].Name + " \n";
+                        _returnValue = "Batteries\n";
+                        for (int i = 0; i < Term.Satellite.SatBattery.Count; i++)
+                        {
+                            _returnValue += " | " + Term.Satellite.SatBattery[i].Name + " \n";
+                        }
+                        _returnValue += "\nFuel Tanks\n";
+                    
+                        for (int i = 0; i < Term.Satellite.SatFuelTank.Count; i++)
+                        {
+                            _returnValue += " | " + Term.Satellite.SatFuelTank[i].Name + "\n";
+                        }
+                        _returnValue += "\nEngines\n";
+                    
+                        for (int i = 0; i < Term.Satellite.SatEngine.Count; i++)
+                        {
+                            _returnValue += " | " + Term.Satellite.SatEngine[i].Name + "\n";
+                        }
                     }
-
-                    _returnValue += "\nFuel Tanks\n";
-
-                    for (int i = 0; i < Term.Satellite.SatFuelTank.Count; i++)
+                    else
                     {
-                        _returnValue += " | " + Term.Satellite.SatFuelTank[i].Name + "\n";
-                    }
-
-                    _returnValue += "\nEngines\n";
-
-                    for (int i = 0; i < Term.Satellite.SatEngine.Count; i++)
-                    {
-                        _returnValue += " | " + Term.Satellite.SatEngine[i].Name + "\n";
+                        Print.OutDebug("Term.Satellite is Null");
                     }
 
                     _returnValue += "\n\nPosition Data\n";
-                    _returnValue += " | Distance: " + Term.Satellite.PosTracker.Distance + " million Km\n";
-                    _returnValue += " | Angular Speed: " + Term.Satellite.PosTracker.AngularSpeed + " deg/day\n";
-                    _returnValue += " | Orbital Position: " + Term.Satellite.PosTracker.OrbitalPos + " °\n";
+                    
+                    if (Term.Satellite != null && Term.Satellite.PosTracker != null)
+                    {
+                        _returnValue += " | Distance: " + Term.Satellite.PosTracker.Distance + " million Km\n";
+                        _returnValue += " | Angular Speed: " + Term.Satellite.PosTracker.AngularSpeed + " deg/day\n";
+                        _returnValue += " | Orbital Position: " + Term.Satellite.PosTracker.OrbitalPos + " °\n";
+                    }
+                    else
+                    {
+                        Print.OutDebug("Term.Satellite or Term.Satellite.PosTracker is Null");
+                    }
 
                     break;
                 case "travel":
@@ -91,97 +106,121 @@ public class SateliteCommand : ICommandable
     {
         Print.OutDebug("new option");
 
-        if (Term.Satellite.IsConfigured)
+        if (Term.Satellite != null && Term.Satellite.IsConfigured)
         {
             bool proceed =
-                Terminal.YNoption(
+                Menu.YNoption(
                     "Are you sure you want to do this? you already have an existing satellite and by running this command it will be destroyed",
                     'n');
             if (proceed) return;
-        }
-        
-        Term.Satellite.IsConfigured = true;
-        
-        Print.Out("Enter name of your satellite: ");
-        string name = Print.ReadLn();
-
-        Term.Satellite.Name = name;
-
-        Print.OutDebug(Term.Satellite.Name);
-
-        List<string> partList;
-        List<ISatelitePartable> partListRaw;
-
-        partList = new List<string>(); // todo: make ths display some part detail
-        partListRaw = new List<ISatelitePartable>();
-
-        Print.OutDebug("battery");
-        for (int i = 0; i < Term.Satellite.Builder.SatBatteryList.Count; i++)
-        {
-            partListRaw.Add(Term.Satellite.Builder.SatBatteryList[i]);
-            partList.Add("Battery: " + Term.Satellite.Builder.SatBatteryList[i].Name);
-            Print.OutDebug(Term.Satellite.Builder.SatBatteryList[i].Name);
+            
+            Term.Satellite.Reset();
         }
 
-        Print.OutDebug("tank");
-        for (int i = 0; i < Term.Satellite.Builder.SatFuelTankList.Count; i++)
+        if (Term.Satellite != null)
         {
-            partListRaw.Add(Term.Satellite.Builder.SatFuelTankList[i]);
-            partList.Add("Fuel Tank: " + Term.Satellite.Builder.SatFuelTankList[i].Name);
-            Print.OutDebug(Term.Satellite.Builder.SatFuelTankList[i].Name);
-        }
+            Term.Satellite.IsConfigured = true;
 
-        Print.OutDebug("engine");
-        for (int i = 0; i < Term.Satellite.Builder.SatEngineList.Count; i++)
-        {
-            partListRaw.Add(Term.Satellite.Builder.SatEngineList[i]);
-            partList.Add("Engine: " + Term.Satellite.Builder.SatEngineList[i].Name);
-            Print.OutDebug(Term.Satellite.Builder.SatEngineList[i].Name);
-        }
+            Print.Out("Enter name of your satellite: ");
+            string name = Print.ReadLn();
 
-        List<int> selectedInt = Menu.SelectMultiple("Select parts: ", partList);
-        List<ISatelitePartable> selected = new List<ISatelitePartable>();
+            Term.Satellite.Name = name;
 
-        if (!Terminal.YNoption("Are you sure you want to create this satellite?", ' ')) // todo: make this display parts
-            return;
-        
-        for (int i = 0; i < selectedInt.Count; i++) // todo: make this not be the loop with extended family ahh
-        {
-            Print.OutDebug("i = " + i);
-            string currentPart = partListRaw[selectedInt[i]].Name;
+            Print.OutDebug(Term.Satellite.Name);
 
-            for (var j = 0; j < partListRaw.Count; j++)
+            List<string> partList;
+            List<ISatelitePartable> partListRaw;
+
+            partList = new List<string>();
+            partListRaw = new List<ISatelitePartable>();
+
+
+            if (Term.Satellite.Builder != null)
             {
-                Print.OutDebug("j = " + j);
-                if (currentPart == partListRaw[j].Name)
+                Print.OutDebug("battery");
+                for (int i = 0; i < Term.Satellite.Builder.SatBatteryList.Count; i++)
                 {
-                    Print.OutDebug("Match part found, its a");
-                    ISatelitePartable currentPartObj = partListRaw[j];
+                    partListRaw.Add(Term.Satellite.Builder.SatBatteryList[i]);
+                    partList.Add("Battery: " + Term.Satellite.Builder.SatBatteryList[i].Name + " -> Capacity: " +
+                                 Term.Satellite.Builder.SatBatteryList[i].Capacity + "kwh");
+                    Print.OutDebug(Term.Satellite.Builder.SatBatteryList[i].Name);
+                }
 
-                    if (currentPartObj is SatBattery checkedBattery) // checks if object is the required type and wraps it so the compiler doesn't scream
+
+                Print.OutDebug("tank");
+                for (int i = 0; i < Term.Satellite.Builder.SatFuelTankList.Count; i++)
+                {
+                    partListRaw.Add(Term.Satellite.Builder.SatFuelTankList[i]);
+                    partList.Add("Fuel Tank: " + Term.Satellite.Builder.SatFuelTankList[i].Name + " -> Capacity: " +
+                                 Term.Satellite.Builder.SatFuelTankList[i].Capacity + "L");
+                    Print.OutDebug(Term.Satellite.Builder.SatFuelTankList[i].Name);
+                }
+
+                Print.OutDebug("engine");
+                for (int i = 0; i < Term.Satellite.Builder.SatEngineList.Count; i++)
+                {
+                    partListRaw.Add(Term.Satellite.Builder.SatEngineList[i]);
+                    partList.Add("Engine: " + Term.Satellite.Builder.SatEngineList[i].Name + " -> Thrust: " +
+                                 Term.Satellite.Builder.SatEngineList[i].Thrust + "N; Fuel consumption:  " +
+                                 Term.Satellite.Builder.SatEngineList[i].FuelConsumption + "L/s");
+                    Print.OutDebug(Term.Satellite.Builder.SatEngineList[i].Name);
+                }
+            }
+            else
+            {
+                Print.OutDebug("Term.Satellite.Builder is null");
+            }
+
+            List<int> selectedInt = Menu.SelectMultiple("Select parts: ", partList);
+
+            if (!Menu.YNoption("Are you sure you want to create this satellite?", ' '))
+                return;
+
+            for (int i = 0; i < selectedInt.Count; i++)
+            {
+                Print.OutDebug("i = " + i);
+                string currentPart = partListRaw[selectedInt[i]].Name;
+
+                for (var j = 0; j < partListRaw.Count; j++)
+                {
+                    Print.OutDebug("j = " + j);
+                    if (currentPart == partListRaw[j].Name)
                     {
-                        Print.OutDebug("battery");
-                        Term.Satellite.SatBattery.Add(checkedBattery);
-                    }
-                    else if (currentPartObj is SatFuelTank checkedFuelTank)
-                    {
-                        Print.OutDebug("fuel tank");
-                        Term.Satellite.SatFuelTank.Add(checkedFuelTank);
-                    }
-                    else if (currentPartObj is SatEngine checkedEngine)
-                    {
-                        Print.OutDebug("engine");
-                        Term.Satellite.SatEngine.Add(checkedEngine);
-                    }
-                    else
-                    {
-                        Print.OutDebug("Error at line 97 in SatelliteCommand in checking type of object - object type does not match nay required");
+                        Print.OutDebug("Match part found, its a");
+                        ISatelitePartable currentPartObj = partListRaw[j];
+
+                        if (currentPartObj is SatBattery
+                            checkedBattery) // checks if object is the required type and wraps it so the compiler doesn't scream
+                        {
+                            Print.OutDebug("battery");
+                            Term.Satellite.SatBattery.Add(checkedBattery);
+                        }
+                        else if (currentPartObj is SatFuelTank checkedFuelTank)
+                        {
+                            Print.OutDebug("fuel tank");
+                            Term.Satellite.SatFuelTank.Add(checkedFuelTank);
+                        }
+                        else if (currentPartObj is SatEngine checkedEngine)
+                        {
+                            Print.OutDebug("engine");
+                            Term.Satellite.SatEngine.Add(checkedEngine);
+                        }
+                        else
+                        {
+                            Print.OutDebug(
+                                "Error at line 97 in SatelliteCommand in checking type of object - object type does not match nay required");
+                        }
                     }
                 }
             }
+
+            Term.Satellite.UnifyFuel();
+        }
+        else
+        {
+            Print.OutDebug("Term.Satellite is null");
         }
 
-        Term.Satellite.UnifyFuel();
         Print.OutDebug("Finished");
     }
 
@@ -189,69 +228,85 @@ public class SateliteCommand : ICommandable
     /// Wraps the trave option command witch so the switch doesn't have 100+ lines
     /// </summary>
     /// <param name="input">The input command list</param>
-    private void TravelOption(List<string> input) // todo: quit function
+    private void TravelOption(List<string> input)
     {
-        switch (input[2].ToLower())
+        if (Term.Satellite != null && Term.Satellite.PosTracker != null)
         {
-            case "height":
-                Print.OutLn("Please enter desired height in million km, current height of orbit around the sun is " +
-                            Term.Satellite.PosTracker.Distance + " million km: ");
-                int targetHeight;
-                while (!int.TryParse(Print.ReadLn(), out targetHeight))
-                {
-                    Print.OutLn("Please enter valid whole number");
-                }
+            switch (input[2].ToLower())
+            {
+                case "height":
+                    Print.OutLn(
+                        "Please enter desired height in million km, current height of orbit around the sun is " +
+                        Term.Satellite.PosTracker.Distance + " million km: ");
+                    int targetHeight;
+                    while (!int.TryParse(Print.ReadLn(), out targetHeight))
+                    {
+                        Print.OutLn("Please enter valid whole number");
+                    }
 
-                _returnValue += Term.Satellite.ChangeOrbitalHeight(targetHeight);
-                break;
-            case "speed":
-                Print.OutLn("Please enter desired angular speed in degrees/day. Current angular speed is " +
-                            Term.Satellite.PosTracker.AngularSpeed + " deg/day: ");
-                double targetSpeed;
-                while (!double.TryParse(Print.ReadLn(), out targetSpeed))
-                {
-                    Print.OutLn("Please enter valid number");
-                }
+                    _returnValue += Term.Satellite.ChangeOrbitalHeight(targetHeight);
 
-                _returnValue += Term.Satellite.ChageOrbitalSpeed(targetSpeed);
-                break;
-            case "snap":
-                Print.OutLn("Please enter desired angular speed in degrees/day. Current angular speed is " +
-                            Term.Satellite.PosTracker.AngularSpeed +
-                            " deg/day. Note that this command is only for fine adjustments up to 1 deg/day : ");
-                double targetSpeedSnap;
-                while (!double.TryParse(Print.ReadLn(), out targetSpeedSnap))
-                {
-                    Print.OutLn("Please enter valid number");
-                }
+                    break;
+                case "speed":
+                    Print.OutLn("Please enter desired angular speed in degrees/day. Current angular speed is " +
+                                Term.Satellite.PosTracker.AngularSpeed + " deg/day: ");
+                    double targetSpeed;
+                    while (!double.TryParse(Print.ReadLn(), out targetSpeed))
+                    {
+                        Print.OutLn("Please enter valid number");
+                    }
 
-                Print.OutLn("Please enter desired orbital position in degrees. Current position is " +
-                            Term.Satellite.PosTracker.OrbitalPos +
-                            "°. Note that this command is only for fine adjustments up to 2° : ");
-                double targetPosSnap;
-                while (!double.TryParse(Print.ReadLn(), out targetPosSnap))
-                {
-                    Print.OutLn("Please enter valid number");
-                }
+                    _returnValue += Term.Satellite.ChageOrbitalSpeed(targetSpeed);
+    
+                    Print.OutDebug("Term.Satellite is null 3");
 
-                _returnValue += Term.Satellite.SnapOrbit(targetPosSnap, targetSpeedSnap);
-                break;
-            case "object":
-                Print.OutLn("Enter to which body do u want to travel to. Keep in mind that you have to be on the same height to reach its actuall position. Use sat travel height to do so if you haven't already: ");
-                string targetBody = Print.ReadLn();
-                
-                Print.OutLn("Enter target time in days for the transition. Keep in mind that shorter time resoults in less fuel usage: ");
-                int targetDays;
-                while (!int.TryParse(Print.ReadLn(), out targetDays))
-                {
-                    Print.OutLn("Please enter valid whole number");
-                }
-                
-                _returnValue = Term.Satellite.ChangePosition(targetBody, targetDays);
-                break;
-            default:
-                Print.OutLn("Invalid option. Expected: height; speed; snap; object");
-                break;
+                    break;
+                case "snap":
+                    Print.OutLn("Please enter desired angular speed in degrees/day. Current angular speed is " +
+                                Term.Satellite.PosTracker.AngularSpeed +
+                                " deg/day. Note that this command is only for fine adjustments up to 1 deg/day : ");
+                    double targetSpeedSnap;
+                    while (!double.TryParse(Print.ReadLn(), out targetSpeedSnap))
+                    {
+                        Print.OutLn("Please enter valid number");
+                    }
+
+                    Print.OutLn("Please enter desired orbital position in degrees. Current position is " +
+                                Term.Satellite.PosTracker.OrbitalPos +
+                                "°. Note that this command is only for fine adjustments up to 2° : ");
+                    double targetPosSnap;
+                    while (!double.TryParse(Print.ReadLn(), out targetPosSnap))
+                    {
+                        Print.OutLn("Please enter valid number");
+                    }
+
+                    _returnValue += Term.Satellite.SnapOrbit(targetPosSnap, targetSpeedSnap);
+
+                    break;
+                case "object":
+                    Print.OutLn(
+                        "Enter to which body do u want to travel to. Keep in mind that you have to be on the same height to reach its actually position. Use sat travel height to do so if you haven't already: ");
+                    string targetBody = Print.ReadLn();
+
+                    Print.OutLn(
+                        "Enter target time in days for the transition. Keep in mind that shorter time results in less fuel usage: ");
+                    int targetDays;
+                    while (!int.TryParse(Print.ReadLn(), out targetDays))
+                    {
+                        Print.OutLn("Please enter valid whole number");
+                    }
+
+                    _returnValue = Term.Satellite.ChangePosition(targetBody, targetDays);
+                    break;
+
+                default:
+                    Print.OutLn("Invalid option. Expected: height; speed; snap; object");
+                    break;
+            }
+        }
+        else
+        {
+            Print.OutDebug("Term.Satellite or Term.Satellite.PosTracker is null");
         }
     }
 }

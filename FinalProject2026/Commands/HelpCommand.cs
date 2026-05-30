@@ -1,7 +1,7 @@
 namespace FinalProject2026.Commands;
 
 /// <summary>
-/// Privides help if user is confused todo: implement it and make oit work it kinda does nothing rn
+/// Command that provides helpfully information to user
 /// </summary>
 public class HelpCommand : ICommandable
 {
@@ -18,26 +18,46 @@ public class HelpCommand : ICommandable
     {
         try
         {
+            if (input.Count <= 1)
+            {
+                return LoadHelperFile("help.txt");
+            }
+            
+            
             switch (input[1].ToLower())
             {
-                case "bodies":
-                    string returnValue = "Bodies In This System:\n";
-                    returnValue += "Central Object -> " + Term.VirtualWorld.CentralObject + "\n\n";
-
-                    for (int i = 0; i < Term.VirtualWorld.OrbitingObjects.Count; i++)
-                    {
-                        returnValue += "Orbiting Object -> " + Term.VirtualWorld.OrbitingObjects[i] + "\n";
-                    }
-
-                    return returnValue;
+                case "time":
+                    return LoadHelperFile("help-time.txt");
+                case "sat":
+                    return LoadHelperFile("help-sat.txt");
+                case "scan":
+                    return LoadHelperFile("help-scan.txt");
+                case "faq":
+                    return "TO BE IMPLEMENTED";
+                case "tutorial":
+                    return "TO BE IMPLEMENTED";
                 default:
-                    return "Unknown Command";
+                    return "Unknown option";
             }
         }
         catch (Exception e)
         {
-            Print.OutLn("IMPLEMENT TS"); //todo: fix ts
-            return e.Message;
+            Print.OutDebug(e.Message);
+            Console.Write(e);
         }
+        return "";
+    }
+
+    public string LoadHelperFile(string path)
+    {
+        StreamReader sr = new StreamReader(path);
+        string text = "";
+        string? line;
+        while ((line = sr.ReadLine()) != null)
+        {
+            text += line + "\n";
+                    
+        }
+        return text;
     }
 }

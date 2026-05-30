@@ -1,5 +1,3 @@
-using System.Windows.Input;
-
 namespace FinalProject2026.Commands;
 
 /// <summary>
@@ -23,7 +21,7 @@ public class DebugCommand : ICommandable
     /// <returns>String to print</returns>
     public string Run(List<string> input)
     {
-        if (Terminal.YNoption("This command is a dev option. Do you want to continue?", 'n'))
+        if (Menu.YNoption("This command is a dev option. Do you want to continue?", 'n'))
         {
             try
             {

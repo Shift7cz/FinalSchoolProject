@@ -1,6 +1,0 @@
-SmallManeuveringEngine engine s 10 100 110 fuel 2
-IonEngine engine s 10 100 110 electric 20
-CommercialEngine engine s 160 100 100000 fuel 120
-9PackIonEngine engine m 90 100 990 electric 180
-InterplanetaryEngine engine m 2000 100 760000 fuel 320
-InterstellarEngine engine l 9000 100 1200000 fuel 570

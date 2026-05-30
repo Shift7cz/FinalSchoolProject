@@ -71,7 +71,7 @@ public static class Print
     /// Prints only when debug is enabled - used for debug messages
     /// </summary>
     /// <param name="input">What it prints</param>
-    public static void OutDebug(string input)
+    public static void OutDebug(string? input)
     {
         if (Debug)
         {
@@ -83,7 +83,7 @@ public static class Print
     /// Console.ReadLine() wrapper
     /// </summary>
     /// <returns>Returns te readline</returns>
-    public static string ReadLn()
+    public static string? ReadLn()
     {
         return Console.ReadLine();
     }

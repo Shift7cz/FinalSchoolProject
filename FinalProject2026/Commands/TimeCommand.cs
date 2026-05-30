@@ -1,5 +1,3 @@
-using System.Windows.Input;
-
 namespace FinalProject2026.Commands;
 
 public class TimeCommand : ICommandable
@@ -15,8 +13,15 @@ public class TimeCommand : ICommandable
     
     public string Run(List<string> input)
     {
-        Warp.SkipTime(int.Parse(input[1]));
-        Print.Out(Warp.MissionTime + "");
-        return "";
+        try
+        {
+            Warp.SkipTime(int.Parse(input[1]));
+            return "Mission time: " + Warp.MissionTime + " days";
+        }
+        catch(Exception e)
+        {
+            Print.OutLn(e.Message + " Please enter a whole number.");
+            return "";
+        }
     }
 }

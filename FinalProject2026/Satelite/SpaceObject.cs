@@ -11,7 +11,7 @@ public class SpaceObject
     public string Name{ get; set; }
 
     /// <summary>
-    /// Distance in million km
+    /// Distance in millions km
     /// </summary>
     public int Distance { get; set; }
     
@@ -28,14 +28,19 @@ public class SpaceObject
     /// <summary>
     /// Orbital position in degrees
     /// </summary>
-    public double OrbitalPos{get; set;} // todo: make this work
+    public double OrbitalPos{get; set;}
     
     /// <summary>
     /// Angular speed used for calculating orbit in warp in deg/day
     /// </summary>
     public double AngularSpeed { get; set; }
+    
+    /// <summary>
+    /// Multiplier for points rewarding the player for reaching more changing locations
+    /// </summary>
+    public double PointsMultiplier{ get; set; }
 
-    public SpaceObject(string name, int distance, double weight, int diameter, double angularSpeed)
+    public SpaceObject(string name, int distance, double weight, int diameter, double angularSpeed, double pointsMultiplier)
     {
         Random rnd = new Random();
         
@@ -45,6 +50,7 @@ public class SpaceObject
         Diameter = diameter;
         OrbitalPos = rnd.Next(0, 360);
         AngularSpeed = angularSpeed;
+        PointsMultiplier = pointsMultiplier;
     }
 
     /// <summary>
@@ -74,6 +80,6 @@ public class SpaceObject
         {
             return Name + " -> Weight: " + Weight + " Earth Masses; Diameter: " + Diameter + " km" ;
         }
-        return Name + " -> Distance: " + Distance + " million km from the sun; Orbital position: " + OrbitalPos + "°; Angular speed: " + AngularSpeed + " deg/day;";
+        return Name + " -> Distance: " + Distance + " million km from the sun; Orbital position: " + OrbitalPos + "°; Angular speed: " + AngularSpeed + " deg/day; Points multiplier: " +  PointsMultiplier + ";";
     }
 }

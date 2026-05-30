@@ -1,5 +1,0 @@
-LightWeightFuelTank fuelTank s 13 100 36 100
-SmallFuelTank fuelTank s 28 100 82 100
-MediumFuelTank fuelTank m 31 100 310 100
-LargeFuelTank fuelTank l 76 100 760 100
-InterstellarF`uelTank fuelTank l 310 100 8200 100

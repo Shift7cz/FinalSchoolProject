@@ -47,6 +47,10 @@ public class SatBattery : ISatelitePartable, IDegradeable
     /// </summary>
     public void RecalculateMaxChargeLevel()
     {
-        MaxChargeLevel = Capacity - (100 - Hp); 
+        MaxChargeLevel = Capacity - (100 - Hp);
+        if (BatteryLevel > MaxChargeLevel)
+        {
+            BatteryLevel = MaxChargeLevel;
+        }
     }
 } 

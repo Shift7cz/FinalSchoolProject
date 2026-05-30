@@ -17,17 +17,17 @@ public class Satellite
     /// <summary>
     /// World object used for positioning the satellite and for passing world data to terminal
     /// </summary>
-    public World SolarSystem { get; set; }
+    public World? SolarSystem { get; set; }
     
     /// <summary>
     /// Used for building the satellite by terminal
     /// </summary>
-    public SateliteBuilder Builder { get; set; }
+    public SateliteBuilder? Builder { get; set; }
     
     /// <summary>
     /// Tracks position
     /// </summary>
-    public PositionTracker PosTracker { get; set; }
+    public PositionTracker? PosTracker { get; set; }
 
     public List<SatBattery> SatBattery { get; set; }
     public List<SatFuelTank> SatFuelTank { get; set; }
@@ -35,6 +35,10 @@ public class Satellite
     
     public Satellite()
     {
+        Name = "n/a";
+        SolarSystem = null;
+        Builder = null;
+        PosTracker = null;
         SatBattery = new List<SatBattery>();
         SatEngine = new List<SatEngine>();
         SatFuelTank = new List<SatFuelTank>(); 
@@ -74,7 +78,7 @@ public class Satellite
     {
         for (int i = 0; i < SatFuelTank.Count; i++)
         {
-            UnifiedFuelAmount = SatFuelTank[i].Capacity;
+            UnifiedFuelAmount += SatFuelTank[i].Capacity;
         }
     }
 
@@ -83,34 +87,45 @@ public class Satellite
     /// </summary>
     /// <param name="newHeight">Target orbital height</param>
     /// <returns>Returns status message that should go to the user</returns>
-    public string ChangeOrbitalHeight(int newHeight) // todo make this take time
+    public string ChangeOrbitalHeight(int newHeight)
     {
-        int deltaR = Math.Abs(newHeight - PosTracker.Distance);
-        int totalFuelConsumption = 0;
-
-        for (int i = 0; i < SatEngine.Count; i++)
+        if (PosTracker != null)
         {
-            totalFuelConsumption += SatEngine[i].FuelConsumption;
+            int deltaR = Math.Abs(newHeight - PosTracker.Distance);
+            int totalFuelConsumption = 0;
+
+            for (int i = 0; i < SatEngine.Count; i++)
+            {
+                totalFuelConsumption += SatEngine[i].FuelConsumption;
+            }
+
+            double burnTime = Math.Abs(deltaR) / GetAcceleration();
+            double fuelUsed = totalFuelConsumption * burnTime; // in l
+
+            if (fuelUsed > UnifiedFuelAmount)
+            {
+                return "Not enough fuel";
+            }
+
+            if (!Menu.YNoption("Do you want to travel? Total fuel consumed " + fuelUsed + "L out of " + UnifiedFuelAmount + "L and maneuver will take " + newHeight + " days ?",
+                    'y'))
+            {
+                return "Maneuver canceled";
+            }
+        
+            if (Warp.SkipTime(newHeight))
+            {
+                PosTracker.Distance = newHeight;
+                UnifiedFuelAmount -= fuelUsed;
+                return "Maneuver successful; Orbital height changed";
+            }
+        }
+        else
+        {
+            Print.OutDebug("PosTracker is null");
         }
 
-        double burnTime = Math.Abs(deltaR) / GetAcceleration();
-        double fuelUsed = totalFuelConsumption * burnTime; // in l
-
-        if (fuelUsed > UnifiedFuelAmount)
-        {
-            return "Not enough fuel";
-        }
-
-        if (!Terminal.YNoption("Do you want to travel? Total fuel consumed " + fuelUsed + "L out of " + UnifiedFuelAmount + "L and maneuver will take " + newHeight + " days ?",
-                'y'))
-        {
-            return "Maneuver canceled";
-        }
-
-        PosTracker.Distance = newHeight;
-        UnifiedFuelAmount -= fuelUsed;
-        Warp.SkipTime(newHeight);
-        return "Maneuver successful; Orbital height changed";
+        return "Maneuver unsuccessful";
     }
 
     /// <summary>
@@ -120,33 +135,42 @@ public class Satellite
     /// <returns>Returns status message that should go to the user</returns>
     public string ChageOrbitalSpeed(double newSpeed)
     {
-        double deltaWDeg = newSpeed - PosTracker.AngularSpeed;
-        double deltaWRad = deltaWDeg * (Math.PI / 180);
-        double deltaVDay = deltaWRad * PosTracker.Distance;
-        double deltaVSec = deltaVDay / 86400; // converts to secodns
-        
-        int totalFuelConsumption = 0;
-
-        for (int i = 0; i < SatEngine.Count; i++)
+        if (PosTracker != null)
         {
-            totalFuelConsumption += SatEngine[i].FuelConsumption;
+            double deltaWDeg = newSpeed - PosTracker.AngularSpeed;
+            double deltaWRad = deltaWDeg * (Math.PI / 180);
+            double deltaVDay = deltaWRad * PosTracker.Distance;
+            double deltaVSec = deltaVDay / 86400; // converts to secodns
+        
+            int totalFuelConsumption = 0;
+
+            for (int i = 0; i < SatEngine.Count; i++)
+            {
+                totalFuelConsumption += SatEngine[i].FuelConsumption;
+            }
+        
+            double burnTime = Math.Abs(deltaVSec) / GetAcceleration();
+            double fuelUsed = totalFuelConsumption * burnTime * 100000; // in l; 100000x multiplier to fix the math not working for game balancing
+        
+            if (fuelUsed > UnifiedFuelAmount)
+            {
+                return "Not enough fuel";
+            }
+
+            if (!Menu.YNoption("Do you want to travel? Total fuel consumed " + fuelUsed + "L out of " + UnifiedFuelAmount + "L ?",
+                    'y'))
+            {
+                return "Maneuver canceled";
+            }
+
+            PosTracker.AngularSpeed = newSpeed;
+            UnifiedFuelAmount -= fuelUsed;
         }
-        
-        double burnTime = Math.Abs(deltaVSec) / GetAcceleration();
-        double fuelUsed = totalFuelConsumption * burnTime * 100000; // in l; 100000x multiplier to fix the math not working for game balancing
-        
-        if (fuelUsed > UnifiedFuelAmount)
+        else
         {
-            return "Not enough fuel";
+            Print.OutDebug("PosTracker is null");
         }
 
-        if (!Terminal.YNoption("Do you want to travel? Total fuel consumed " + fuelUsed + "L out of " + UnifiedFuelAmount + "L ?",
-                'y'))
-        {
-            return "Maneuver canceled";
-        }
-
-        PosTracker.AngularSpeed = newSpeed;
         return "Maneuver successful; Orbital speed changed";
     }
 
@@ -156,22 +180,31 @@ public class Satellite
     /// <param name="newPos">The target pos</param>
     /// <param name="newSpeed">The target speed</param>
     /// <returns>Returns status message that should go to the user</returns>
-    public string SnapOrbit(double newPos, double newSpeed) // todo fuel consumption and confirmation
+    public string SnapOrbit(double newPos, double newSpeed)
     {
-        if (Math.Abs(newPos - PosTracker.OrbitalPos) >= 2)
+        if (PosTracker != null)
         {
-            return "Too far from target positon";
-        }
+            if (Math.Abs(newPos - PosTracker.OrbitalPos) >= 2)
+            {
+                return "Too far from target positon";
+            }
 
-        if (Math.Abs(newSpeed - PosTracker.AngularSpeed) >= 1)
-        {
-            return "Too much speed difference; slow down";
+            if (Math.Abs(newSpeed - PosTracker.AngularSpeed) >= 1)
+            {
+                return "Too much speed difference; slow down";
+            }
+
+
+            PosTracker.OrbitalPos = newPos;
+            PosTracker.AngularSpeed = newSpeed;
+            
+            return "Maneuver successful; Orbit snapped to target positon";
         }
-        
-        PosTracker.OrbitalPos = newPos;
-        PosTracker.AngularSpeed = newSpeed;
-        
-        return "Maneuver successful; Orbit snapped to target positon";
+        else
+        {
+            Print.OutDebug("PosTracker is null");
+            return "Maneuver canceled";
+        }
     }
     
     /// <summary>
@@ -182,15 +215,22 @@ public class Satellite
     /// <returns>Returns status message that should go to the user</returns>
     public string ChangePosition(string targetObject, int targetDays)
     {
-        SpaceObject target = null;
+        SpaceObject? target = null;
         bool hasFound = false;
-        for (int i = 0; i < SolarSystem.OrbitingObjects.Count; i++)
+        if (SolarSystem != null)
         {
-            if (SolarSystem.OrbitingObjects[i].Name.ToLower() == targetObject)
+            for (int i = 0; i < SolarSystem.OrbitingObjects.Count; i++)
             {
-                target = SolarSystem.OrbitingObjects[i];
-                hasFound = true;
+                if (SolarSystem.OrbitingObjects[i].Name.ToLower() == targetObject)
+                {
+                    target = SolarSystem.OrbitingObjects[i];
+                    hasFound = true;
+                }
             }
+        }
+        else
+        {
+            Print.OutDebug("SolarSystem is null");
         }
 
         if (!hasFound)
@@ -198,22 +238,46 @@ public class Satellite
             return "Target not found";
         }
 
-        double targetPos = target.CalculateOrbitalPos(target.AngularSpeed * targetDays);
-        
-        double degreesToTravel = targetPos - PosTracker.OrbitalPos;
-        if (degreesToTravel < 0)
+        if (target != null && PosTracker != null)
         {
-            degreesToTravel += 360;
-        }
+            double targetPos = target.CalculateOrbitalPos(target.AngularSpeed * targetDays);
         
-        double requiredSpeed = (degreesToTravel)/targetDays;
+            double degreesToTravel = targetPos - PosTracker.OrbitalPos;
+            if (degreesToTravel < 0)
+            {
+                degreesToTravel += 360;
+            }
+        
+            double requiredSpeed = (degreesToTravel)/targetDays;
 
-        ChageOrbitalSpeed(requiredSpeed);
+            ChageOrbitalSpeed(requiredSpeed);
+
+            if (Warp.SkipTime(targetDays))
+            {
+                PosTracker.OrbitalPos = targetPos;
+                return "Maneuver successful";
+            }
+        }
+        else
+        {
+            Print.OutDebug("PosTracker or target is null");
+        }
+
+        return "Maneuver canceled";
+    }
+    
+    /// <summary>
+    /// Resets the satellite to default options
+    /// </summary>
+    public void Reset()
+    {
+        SatBattery = new List<SatBattery>();
+        SatEngine = new List<SatEngine>();
+        SatFuelTank = new List<SatFuelTank>();
+
+        UnifiedFuelAmount = 0;
+        IsConfigured = false;
         
-        Warp.SkipTime(targetDays);
-        
-        PosTracker.OrbitalPos = targetPos;
-        
-        return "Maneuver successful";
+        PosTracker = new PositionTracker(150, 0.986);
     }
 }

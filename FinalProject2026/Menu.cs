@@ -1,5 +1,3 @@
-using FinalProject2026.Commands;
-
 namespace FinalProject2026;
 
 /// <summary>
@@ -87,6 +85,42 @@ public static class Menu
             }
             
             Print.Clear();
+        }
+    }
+    
+    /// <summary>
+    /// Asks user if they want to proceed with y/n
+    /// </summary>
+    /// <param name="message">Custom message for the user</param>
+    /// <param name="recomended">Which option is recommended. always enter lowercase, leve blanc for n recommendation</param>
+    /// <returns>y = true; n = false; returns bool based on user response</returns>
+    public static bool YNoption(string message, char recomended)
+    {
+        switch (recomended)
+        {
+            case 'y':
+                Print.Out(message + " [Y/n]: ");
+                break;
+            case 'n':
+                Print.Out(message + " [y/N]: ");
+                break;
+            default:
+                Print.Out(message + " [y/n]: ");
+                break;
+        }
+        
+        ConsoleKey k = Print.ReadKey();
+        Print.OutLn("");
+
+        switch (k)
+        {
+            case ConsoleKey.Y:
+                return true;
+            case ConsoleKey.N:
+                return false;
+            default:
+                Print.OutLn("Excepted keys [y/n]");
+                return false;
         }
     }
 }

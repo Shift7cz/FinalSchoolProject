@@ -20,17 +20,19 @@ public class Terminal
     /// <summary>
     /// Reference to the world object
     /// </summary>
-    public World VirtualWorld { get; set; }
+    public World? VirtualWorld { get; set; }
     
     /// <summary>
     /// The satellite object
     /// </summary>
-    public Satellite Satellite { get; set; }
+    public Satellite? Satellite { get; set; }
     
-    public Terminal(List<ICommandable> commands, string terminalString)
+    public Terminal(List<ICommandable> commands, string terminalString, World? virtualWorld = null, Satellite? satellite = null)
     {
         CommandList = commands;
         TerminalString = terminalString;
+        VirtualWorld = virtualWorld;
+        Satellite = satellite;
     }
 
     /// <summary>
@@ -38,46 +40,17 @@ public class Terminal
     /// </summary>
     /// <param name="input">The raw command string</param>
     /// <returns>The splited command List</returns>
-    public static List<string> ParseCommand(string input)
+    public static List<string> ParseCommand(string? input)
     {
         char devider = ' ';
-        string[] devided = input.Split(devider);
-        return devided.ToList();
-    }
-
-    /// <summary>
-    /// Asks user if they want to proceed with y/n
-    /// </summary>
-    /// <param name="message">Custom message for the user</param>
-    /// <param name="recomended">Which option is recommended. always enter lowercase, leve blanc for n recommendation</param>
-    /// <returns>y = true; n = false; returns bool based on user response</returns>
-    public static bool YNoption(string message, char recomended)
-    {
-        switch (recomended)
+        string[]? devided = input?.Split(devider);
+        if (devided != null)
         {
-            case 'y':
-                Print.Out(message + " [Y/n]: ");
-                break;
-            case 'n':
-                Print.Out(message + " [y/N]: ");
-                break;
-            default:
-                Print.Out(message + " [y/n]: ");
-                break;
+            return devided.ToList();
         }
-        
-        ConsoleKey k = Print.ReadKey();
-        Print.OutLn("");
-
-        switch (k)
+        else
         {
-            case ConsoleKey.Y:
-                return true;
-            case ConsoleKey.N:
-                return false;
-            default:
-                Print.OutLn("Excepted keys [y/n]");
-                return false;
+            return new List<string>();
         }
     }
 
@@ -93,30 +66,29 @@ public class Terminal
             bool hasRan = false;
             
             Print.Out(TerminalString + " ");
-            string rawCommand = Print.ReadLn();
+            string? rawCommand = Print.ReadLn();
             
-            // command = command.ToLower()
             Print.OutDebug(rawCommand);
-            
+
             List<string> command = ParseCommand(rawCommand);
-            
+
             for (int i = 0; i < CommandList.Count; i++)
             {
                 if (command[0] == CommandList[i].Name)
                 {
-                    //command.RemoveAt(0);
                     Print.OutLn(CommandList[i].Run(command));
                     hasRan = true;
-                } 
+                }
             }
 
             if (!hasRan)
             {
-                if (command[0] == "quit" && !hasRan) // todo: make it actual object command that saves state and stuff
+                if (command[0] == "quit" &&
+                    !hasRan) // todo: make it actual object command that saves state and stuff
                 {
                     hasQuit = true;
                 }
-                else // TODO: That did u mean this but u cant write think like in linux terminal
+                else
                 {
                     if (command[0] != "")
                     {
