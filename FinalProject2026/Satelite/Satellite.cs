@@ -10,6 +10,11 @@ public class Satellite
     public bool IsConfigured { get; set; }
     
     /// <summary>
+    /// Used to simplify math after creation
+    /// </summary>
+    public double UnifiedFuelAmount { get; set; }
+    
+    /// <summary>
     /// World object used for positioning the satellite and for passing world data to terminal
     /// </summary>
     public World SolarSystem { get; set; }
@@ -57,10 +62,20 @@ public class Satellite
         {
             SatFuelTank[i].RecalculateAdditionalWeight();
             weight += SatFuelTank[i].Weight;
-            weight += SatFuelTank[i].AdditionalWeight;
         }
 
         return thrust / weight;
+    }
+
+    /// <summary>
+    /// Converts system of individual fuel tanks into one value system for simpler math
+    /// </summary>
+    public void UnifyFuel()
+    {
+        for (int i = 0; i < SatFuelTank.Count; i++)
+        {
+            UnifiedFuelAmount = SatFuelTank[i].Capacity;
+        }
     }
 
     /// <summary>
@@ -72,12 +87,6 @@ public class Satellite
     {
         int deltaR = Math.Abs(newHeight - PosTracker.Distance);
         int totalFuelConsumption = 0;
-        int allFuel = 0;
-
-        for (int i = 0; i < SatFuelTank.Count; i++)
-        {
-            allFuel += (SatFuelTank[i].Capacity / 100) * SatFuelTank[i].FuelLevel;
-        }
 
         for (int i = 0; i < SatEngine.Count; i++)
         {
@@ -87,18 +96,19 @@ public class Satellite
         double burnTime = Math.Abs(deltaR) / GetAcceleration();
         double fuelUsed = totalFuelConsumption * burnTime; // in l
 
-        if (fuelUsed > allFuel)
+        if (fuelUsed > UnifiedFuelAmount)
         {
             return "Not enough fuel";
         }
 
-        if (!Terminal.YNoption("Do you want to travel? Total fuel consumed " + fuelUsed + "L out of " + allFuel + "L and maneuver will take " + newHeight + " days ?",
+        if (!Terminal.YNoption("Do you want to travel? Total fuel consumed " + fuelUsed + "L out of " + UnifiedFuelAmount + "L and maneuver will take " + newHeight + " days ?",
                 'y'))
         {
             return "Maneuver canceled";
         }
 
-        PosTracker.Distance = newHeight; // todo: make fuel go out
+        PosTracker.Distance = newHeight;
+        UnifiedFuelAmount -= fuelUsed;
         Warp.SkipTime(newHeight);
         return "Maneuver successful; Orbital height changed";
     }
@@ -116,12 +126,6 @@ public class Satellite
         double deltaVSec = deltaVDay / 86400; // converts to secodns
         
         int totalFuelConsumption = 0;
-        int allFuel = 0;
-
-        for (int i = 0; i < SatFuelTank.Count; i++)
-        {
-            allFuel += (SatFuelTank[i].Capacity / 100) * SatFuelTank[i].FuelLevel;
-        }
 
         for (int i = 0; i < SatEngine.Count; i++)
         {
@@ -131,12 +135,12 @@ public class Satellite
         double burnTime = Math.Abs(deltaVSec) / GetAcceleration();
         double fuelUsed = totalFuelConsumption * burnTime * 100000; // in l; 100000x multiplier to fix the math not working for game balancing
         
-        if (fuelUsed > allFuel)
+        if (fuelUsed > UnifiedFuelAmount)
         {
             return "Not enough fuel";
         }
 
-        if (!Terminal.YNoption("Do you want to travel? Total fuel consumed " + fuelUsed + "L out of " + allFuel + "L ?",
+        if (!Terminal.YNoption("Do you want to travel? Total fuel consumed " + fuelUsed + "L out of " + UnifiedFuelAmount + "L ?",
                 'y'))
         {
             return "Maneuver canceled";
@@ -184,14 +188,7 @@ public class Satellite
         {
             if (SolarSystem.OrbitingObjects[i].Name.ToLower() == targetObject)
             {
-                target = new SpaceObject(
-                    SolarSystem.OrbitingObjects[i].Name,
-                    SolarSystem.OrbitingObjects[i].Distance,
-                    SolarSystem.OrbitingObjects[i].Weight,
-                    SolarSystem.OrbitingObjects[i].Diameter,
-                    SolarSystem.OrbitingObjects[i].AngularSpeed
-                    );
-                
+                target = SolarSystem.OrbitingObjects[i];
                 hasFound = true;
             }
         }

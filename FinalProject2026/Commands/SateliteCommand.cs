@@ -65,12 +65,15 @@ public class SateliteCommand : ICommandable
                 case "travel":
                     TravelOption(input);
                     break;
+                default:
+                    Print.OutLn("Invalid option. Expected new; list; travel");
+                    break;
             }
         }
         catch (Exception e)
         {
             Print.OutDebug(e.Message);
-            Console.WriteLine(e);
+            // Console.WriteLine(e);
             Print.OutLn("Bad requesr. Type help for help");
         }
 
@@ -178,6 +181,7 @@ public class SateliteCommand : ICommandable
             }
         }
 
+        Term.Satellite.UnifyFuel();
         Print.OutDebug("Finished");
     }
 
@@ -222,8 +226,8 @@ public class SateliteCommand : ICommandable
                 }
 
                 Print.OutLn("Please enter desired orbital position in degrees. Current position is " +
-                            Term.Satellite.PosTracker.AngularSpeed +
-                            " °. Note that this command is only for fine adjustments up to 2° : ");
+                            Term.Satellite.PosTracker.OrbitalPos +
+                            "°. Note that this command is only for fine adjustments up to 2° : ");
                 double targetPosSnap;
                 while (!double.TryParse(Print.ReadLn(), out targetPosSnap))
                 {
@@ -232,7 +236,7 @@ public class SateliteCommand : ICommandable
 
                 _returnValue += Term.Satellite.SnapOrbit(targetPosSnap, targetSpeedSnap);
                 break;
-            case "body":
+            case "object":
                 Print.OutLn("Enter to which body do u want to travel to. Keep in mind that you have to be on the same height to reach its actuall position. Use sat travel height to do so if you haven't already: ");
                 string targetBody = Print.ReadLn();
                 
@@ -244,6 +248,9 @@ public class SateliteCommand : ICommandable
                 }
                 
                 _returnValue = Term.Satellite.ChangePosition(targetBody, targetDays);
+                break;
+            default:
+                Print.OutLn("Invalid option. Expected: height; speed; snap; object");
                 break;
         }
     }

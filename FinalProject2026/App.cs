@@ -29,9 +29,9 @@ public class App
         Satellite satellite = new Satellite();
         
         Terminal t = new Terminal(new List<ICommandable>(), ">");
-        RunTerminal(t);
         
         RunEnviroment(t, satellite);
+        RunTerminal(t);
     }
 
     /// <summary>
