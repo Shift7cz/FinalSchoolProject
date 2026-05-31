@@ -1,4 +1,4 @@
-namespace FinalProject2026.Satelite;
+namespace FinalProject2026.Sat;
 
 /// <summary>
 /// Adds option for parts to degrade over time todo: implement

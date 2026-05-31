@@ -1,4 +1,4 @@
-using FinalProject2026.Satelite;
+using FinalProject2026.Sat;
 
 namespace FinalProject2026.Commands;
 
@@ -16,6 +16,11 @@ public class ScanCommand : ICommandable
         Name = name;
     }
     
+    /// <summary>
+    /// Implementation fo the run function for the scan command. Allows user to scan different objects if they are exactly at their position. In reward, they get points.
+    /// </summary>
+    /// <param name="input">Standard command stored as list of strings (a word per string)</param>
+    /// <returns>Message to the user.</returns>
     public string Run(List<string> input)
     {
         SpaceObject? target = null;
@@ -61,8 +66,7 @@ public class ScanCommand : ICommandable
             }
 
             // This warning is ok
-            if (target != null && Term.Satellite != null &&
-                Term.Satellite.PosTracker.AngularSpeed != target.AngularSpeed)
+            if (Term.Satellite.PosTracker.AngularSpeed != target.AngularSpeed)
             {
                 return "Angular speed doesnt match with target";
             }
@@ -77,6 +81,11 @@ public class ScanCommand : ICommandable
 
         if (Term.Satellite != null)
         {
+            if (Term.Satellite.SatBattery.Count == 0)
+            {
+                return "No batteries installed; Cannot do scan";
+            }
+
             for (int i = 0; i < Term.Satellite.SatBattery.Count; i++)
             {
                 batteriesLevel += Term.Satellite.SatBattery[i].BatteryLevel;
@@ -84,9 +93,13 @@ public class ScanCommand : ICommandable
             }
         }
 
-        if (Term.Satellite != null && Term.Satellite.SatBattery.Count == 0)
+        if (Term.Satellite != null && Term.Satellite.SatBattery.Count != 0)
         {
             batteriesLevel /= Term.Satellite.SatBattery.Count;
+        }
+        else
+        {
+            batteriesLevel = 0;
         }
 
         Print.OutLn("Please enter the amount of energy you would like to assign to this scan in %. Your current battery reserve is at " +  batteriesLevel + "% which is total of " +  batteriesCapaity*batteriesLevel/100 + "kwh. More power will equal more points: ");

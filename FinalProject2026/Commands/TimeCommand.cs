@@ -1,5 +1,8 @@
 namespace FinalProject2026.Commands;
 
+/// <summary>
+/// Simple command allowing the user to skip time in days with full simulation
+/// </summary>
 public class TimeCommand : ICommandable
 {
     public Terminal Term { get; set; }

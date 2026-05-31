@@ -1,5 +1,5 @@
 using FinalProject2026.Commands;
-using FinalProject2026.Satelite;
+using FinalProject2026.Sat;
 
 namespace FinalProject2026;
 
@@ -24,7 +24,7 @@ public class App
     /// </summary>
     public void Run()
     {
-        FileRegenrator.CheckSavedFiles();
+        FileRegenerator.CheckSavedFiles();
         
         Satellite satellite = new Satellite();
         
@@ -37,7 +37,7 @@ public class App
         catch (Exception e)
         {
             Print.OutLn(e.Message + " Regenerating files.");
-            FileRegenrator.RegenerateFiles();
+            FileRegenerator.RegenerateFiles();
             RunEnviroment(t, satellite);
         }
         
@@ -53,7 +53,7 @@ public class App
         List<ICommandable> cmndList = new List<ICommandable>()
         {
             new DebugCommand(t, "debug"),
-            new WhoAmICommanad(t, "whoami"),
+            new WhoAmICommand(t, "whoami"),
             new NeofetchCommand(t, "neofetch"),
             new ClearCommand(t, "clear"),
             new HelpCommand(t, "help"),
@@ -95,5 +95,7 @@ public class App
         t.Satellite = sat;
         t.VirtualWorld = solarSystem;
         t.VirtualWorld.Sat = sat;
+
+        Warp.Sat = sat;
     }
 }

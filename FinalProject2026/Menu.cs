@@ -22,7 +22,7 @@ public static class Menu
         while (true)
         {
             Print.OutLn(title);
-            Print.OutLn("Use up ↑↓ keys to move, space to select and enter to confirm and exit.");
+            Print.OutLn("Use ↑↓ keys to move, space to select and enter to confirm and exit.");
 
             for (int i = 0; i < options.Count; i++)
             {

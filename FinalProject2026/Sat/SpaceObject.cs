@@ -1,4 +1,4 @@
-namespace FinalProject2026.Satelite;
+namespace FinalProject2026.Sat;
 
 /// <summary>
 /// Object used in the world to define planets, sun and different bodies

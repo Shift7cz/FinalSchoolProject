@@ -3,7 +3,7 @@ namespace FinalProject2026;
 /// <summary>
 /// Handles file checking
 /// </summary>
-public static class FileRegenrator
+public static class FileRegenerator
 {
     private static void PingFile(string path)
     {
@@ -29,6 +29,7 @@ public static class FileRegenrator
             PingFile("help-time.txt");
             PingFile("help-sat.txt");
             PingFile("help-scan.txt");
+            PingFile("help-tutorial.txt");
             PingFile("points.txt");
         }
         catch (Exception e)
@@ -116,6 +117,15 @@ public static class FileRegenrator
         sw = new StreamWriter("help-scan.txt");
         sw.WriteLine("Allows to scan object if orbital position, speed and height are EXACTLY the ones of an object. use sat travel snap for fine corrections.");
         sw.Close();
+        
+        sw = new StreamWriter("help-tutorial.txt");
+        sw.WriteLine("Your goal is to travel do different objects and scan them for points. If you run the command \"objects\" you can see a list of all the objects you can fli to and some of their information. \n" +
+                     "Tobe able to actually do anything you have to first create a satellite by running \"sat new\". There you have to chose a name and parts for your satellite. You have to chose at least one battery, fuel tank and engine. \n" +
+                     "After that you are free to travel wherever you want to go. Use the command \"help sat\" for more information on the traveling mechanics. When you get to the exact positon and speed of a object you can scan it by typing \"scan [object name\". \n" +
+                     "Keep in mind that your fuel tanks and batteries will deplete and that batteries degrade overtime, so you dont have infinite time. Once you finish your desired mission and you run out of fuel you can run \"sat new\" for a new satellite \n" +
+                     "Type \"help\" for more information.");
+        sw.Close();
+        
         
         sw = new StreamWriter("points.txt");
         sw.WriteLine("0");

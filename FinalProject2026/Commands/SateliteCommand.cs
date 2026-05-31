@@ -1,4 +1,4 @@
-using FinalProject2026.Satelite;
+using FinalProject2026.Sat;
 
 namespace FinalProject2026.Commands;
 
@@ -22,6 +22,11 @@ public class SateliteCommand : ICommandable
         _returnValue = "";
     }
     
+    /// <summary>
+    /// Implementation of run inside satellite command. Allows the user to contort his satellite movement and allows him ot create new satellite.
+    /// </summary>
+    /// <param name="input"></param>
+    /// <returns></returns>
     public string Run(List<string> input)
     {
         _returnValue = ""; // resets _returnValue to prevent functions returning previous returns
@@ -68,6 +73,7 @@ public class SateliteCommand : ICommandable
                         _returnValue += " | Distance: " + Term.Satellite.PosTracker.Distance + " million Km\n";
                         _returnValue += " | Angular Speed: " + Term.Satellite.PosTracker.AngularSpeed + " deg/day\n";
                         _returnValue += " | Orbital Position: " + Term.Satellite.PosTracker.OrbitalPos + " °\n";
+                        _returnValue += " | Fuel Ammount: " + Term.Satellite.UnifiedFuelAmount + "L \n";
                     }
                     else
                     {
@@ -171,6 +177,41 @@ public class SateliteCommand : ICommandable
 
             List<int> selectedInt = Menu.SelectMultiple("Select parts: ", partList);
 
+            if (selectedInt.Count == 0)
+            {
+                _returnValue = "You have to select parts. We recommend selecting one of each. Use ↑↓ keys to move, space to select and enter to confirm and exit.";
+                Term.Satellite.Reset();
+                return;
+            }
+            
+            bool hasBattery = false;
+            bool hasFuelTank = false;
+            bool hasEngine = false;
+
+            for (int i = 0; i < selectedInt.Count; i++)
+            {
+                ISatelitePartable part = partListRaw[selectedInt[i]];
+                if (part is SatBattery)
+                {
+                    hasBattery = true;
+                }
+                if (part is SatFuelTank)
+                {
+                    hasFuelTank = true;
+                }
+                if (part is SatEngine) 
+                {
+                    hasEngine = true;
+                }
+            }
+
+            if (!hasBattery || !hasFuelTank || !hasEngine)
+            {
+                _returnValue = "You need at least one battery, one fuel tank and one engine.";
+                Term.Satellite.Reset();
+                return;
+            }
+
             if (!Menu.YNoption("Are you sure you want to create this satellite?", ' '))
                 return;
 
@@ -256,9 +297,9 @@ public class SateliteCommand : ICommandable
                             Print.OutLn("Please enter valid number");
                         }
 
-                        _returnValue += Term.Satellite.ChageOrbitalSpeed(targetSpeed);
+                        _returnValue += Term.Satellite.ChangeOrbitalSpeed(targetSpeed);
 
-                        Print.OutDebug("Term.Satellite is null 3");
+                        Print.OutDebug("Term.Satellite is null");
 
                         break;
                     case "snap":

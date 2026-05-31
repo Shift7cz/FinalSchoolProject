@@ -1,4 +1,4 @@
-using FinalProject2026.Satelite;
+using FinalProject2026.Sat;
 
 namespace FinalProject2026;
 

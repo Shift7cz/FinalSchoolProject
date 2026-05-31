@@ -1,4 +1,4 @@
-namespace FinalProject2026.Satelite;
+namespace FinalProject2026.Sat;
 
 /// <summary>
 /// Battery object

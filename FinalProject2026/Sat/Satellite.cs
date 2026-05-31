@@ -1,4 +1,4 @@
-namespace FinalProject2026.Satelite;
+namespace FinalProject2026.Sat;
 
 /// <summary>
 /// Is th satellite the user is controlling
@@ -133,7 +133,7 @@ public class Satellite
     /// </summary>
     /// <param name="newSpeed">hte target speed in deg/day</param>
     /// <returns>Returns status message that should go to the user</returns>
-    public string ChageOrbitalSpeed(double newSpeed)
+    public string ChangeOrbitalSpeed(double newSpeed)
     {
         if (PosTracker != null)
         {
@@ -250,7 +250,7 @@ public class Satellite
         
             double requiredSpeed = (degreesToTravel)/targetDays;
 
-            ChageOrbitalSpeed(requiredSpeed);
+            ChangeOrbitalSpeed(requiredSpeed);
 
             if (Warp.SkipTime(targetDays))
             {

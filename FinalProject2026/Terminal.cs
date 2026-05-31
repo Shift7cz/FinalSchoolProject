@@ -1,4 +1,4 @@
-using FinalProject2026.Satelite;
+using FinalProject2026.Sat;
 
 namespace FinalProject2026;
 
@@ -59,6 +59,8 @@ public class Terminal
     /// </summary>
     public void Run()
     {
+        Print.OutLn("Type \"help\" for help or \"help tutorial\" for tutorial. Use external README for list of commands. You can type now.");
+        
         bool hasQuit = false;
 
         while (!hasQuit)

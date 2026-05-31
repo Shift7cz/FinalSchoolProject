@@ -1,4 +1,4 @@
-namespace FinalProject2026.Satelite;
+namespace FinalProject2026.Sat;
 
 /// <summary>
 /// Builds the satellite
@@ -38,7 +38,7 @@ public class SateliteBuilder
         catch (Exception e)
         {
             Print.OutLn(e.Message + " Regenerating files.");
-            FileRegenrator.RegenerateFiles();
+            FileRegenerator.RegenerateFiles();
             LoadFiles();
         }
     }

@@ -14,6 +14,11 @@ public class HelpCommand : ICommandable
         Name = name;
     }
 
+    /// <summary>
+    /// Implementation of run for help command. Allows simple display of help tips for player which are loaded from file.
+    /// </summary>
+    /// <param name="input">Standard command input</param>
+    /// <returns>The help tip to be printed inside the console</returns>
     public string Run(List<string> input)
     {
         try
@@ -35,7 +40,7 @@ public class HelpCommand : ICommandable
                 case "faq":
                     return "TO BE IMPLEMENTED";
                 case "tutorial":
-                    return "TO BE IMPLEMENTED";
+                    return LoadHelperFile("help-tutorial.txt");
                 default:
                     return "Unknown option";
             }
@@ -43,7 +48,7 @@ public class HelpCommand : ICommandable
         catch (Exception e)
         {
             Print.OutDebug(e.Message);
-            Console.Write(e);
+            // Console.Write(e);
         }
         return "";
     }
@@ -56,7 +61,6 @@ public class HelpCommand : ICommandable
         while ((line = sr.ReadLine()) != null)
         {
             text += line + "\n";
-                    
         }
         return text;
     }

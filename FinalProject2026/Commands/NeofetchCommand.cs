@@ -1,7 +1,7 @@
 namespace FinalProject2026.Commands;
 
 /// <summary>
-/// Esteregg command
+/// Esteregg command running fake neofetch inside console. No additional functionality.
 /// </summary>
 public class NeofetchCommand : ICommandable
 {

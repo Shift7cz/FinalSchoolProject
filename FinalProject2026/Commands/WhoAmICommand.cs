@@ -3,12 +3,12 @@ namespace FinalProject2026.Commands;
 /// <summary>
 /// Esteregg command
 /// </summary>
-public class WhoAmICommanad : ICommandable
+public class WhoAmICommand : ICommandable
 {
     public Terminal Term { get; set; }
     public string Name { get; set; }
 
-    public WhoAmICommanad(Terminal term, string name)
+    public WhoAmICommand(Terminal term, string name)
     {
         Term = term;
         Name = name;

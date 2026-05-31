@@ -1,5 +1,8 @@
 namespace FinalProject2026.Commands;
 
+/// <summary>
+/// Allows player to display his points.
+/// /// </summary>
 public class PointsCommand : ICommandable
 {
     public Terminal Term { get; set; }

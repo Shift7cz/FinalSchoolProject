@@ -1,4 +1,4 @@
-namespace FinalProject2026.Satelite;
+namespace FinalProject2026.Sat;
 
 /// <summary>
 /// Adds basic option ofr all sat parts - MANDATORY FOR SATELLITE PARTS
