@@ -153,6 +153,7 @@ classDiagram
     
     App --> Terminal
     App --> Satellite
+```
 
 ## How to play?
 - Once ingame you will be greeted with a welcome message and a terminal you can type into.
