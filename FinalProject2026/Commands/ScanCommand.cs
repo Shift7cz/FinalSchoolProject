@@ -53,20 +53,21 @@ public class ScanCommand : ICommandable
 
         if (Term.Satellite != null && target != null && Term.Satellite.PosTracker != null)
         {
-
-            if (Term.Satellite.PosTracker.Distance != target.Distance)
+            double tolerance = 0.001;
+            
+            if ((Term.Satellite.PosTracker.Distance - target.Distance) > tolerance)
             {
                 return "Distance doesnt match with target";
             }
 
             // This warning is ok
-            if (Term.Satellite.PosTracker.OrbitalPos != target.OrbitalPos)
+            if (Math.Abs(Term.Satellite.PosTracker.OrbitalPos - target.OrbitalPos) > tolerance)
             {
                 return "Orbital position doesnt match with target";
             }
 
             // This warning is ok
-            if (Term.Satellite.PosTracker.AngularSpeed != target.AngularSpeed)
+            if (Math.Abs(Term.Satellite.PosTracker.AngularSpeed - target.AngularSpeed) > tolerance)
             {
                 return "Angular speed doesnt match with target";
             }
@@ -107,7 +108,7 @@ public class ScanCommand : ICommandable
         int targetPower;
         while (!int.TryParse(Print.ReadLn(), out targetPower))
         {
-            Print.OutLn("Please enter valid whole number");
+            Print.OutLn("Please enter valid whole number in %");
         }
 
         if (targetPower > batteriesLevel)
@@ -115,6 +116,10 @@ public class ScanCommand : ICommandable
             return "Invalid value. Please enter value in % and make shure that it is less tha the bateries have";
         }
 
+        if (targetPower < 0)
+        {
+            return "Nice try. You cannot enter negative power";
+        }
 
         if (target != null)
         {

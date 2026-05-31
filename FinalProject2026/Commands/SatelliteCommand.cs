@@ -70,9 +70,9 @@ public class SatelliteCommand : ICommandable
                     
                     if (Term.Satellite != null && Term.Satellite.PosTracker != null)
                     {
-                        _returnValue += " | Distance: " + Term.Satellite.PosTracker.Distance + " million Km\n";
+                        _returnValue += " | Distance: " + Term.Satellite.PosTracker.Distance + " million Km from the sun\n";
                         _returnValue += " | Angular Speed: " + Term.Satellite.PosTracker.AngularSpeed + " deg/day\n";
-                        _returnValue += " | Orbital Position: " + Term.Satellite.PosTracker.OrbitalPos + " °\n";
+                        _returnValue += " | Orbital Position: " + Term.Satellite.PosTracker.OrbitalPos + "°\n";
                         _returnValue += " | Fuel Ammount: " + Term.Satellite.UnifiedFuelAmount + "L \n";
                     }
                     else
@@ -212,8 +212,25 @@ public class SatelliteCommand : ICommandable
                 return;
             }
 
-            if (!Menu.YNoption("Are you sure you want to create this satellite?", ' '))
-                return;
+            bool hasSelected = false;
+            while (!hasSelected)
+            {
+                try
+                {
+                    if (!Menu.YNoption("Are you sure you want to create this satellite?", ' '))
+                    {
+                        return;
+                    }
+                    else
+                    {
+                        hasSelected = true;
+                    }
+                }
+                catch (Exception e)
+                {
+                    Print.OutLn("Excepted keys [y/n]");
+                }
+            }
 
             for (int i = 0; i < selectedInt.Count; i++)
             {
@@ -282,7 +299,12 @@ public class SatelliteCommand : ICommandable
                         int targetHeight;
                         while (!int.TryParse(Print.ReadLn(), out targetHeight))
                         {
-                            Print.OutLn("Please enter valid whole number");
+                            Print.OutLn("Please enter valid positive whole number");
+                        }
+
+                        if (targetHeight < 0)
+                        {
+                            _returnValue = "Please enter valid positive number";
                         }
 
                         _returnValue += Term.Satellite.ChangeOrbitalHeight(targetHeight);
@@ -321,6 +343,11 @@ public class SatelliteCommand : ICommandable
                             Print.OutLn("Please enter valid number");
                         }
 
+                        if (targetPosSnap < 0 || targetPosSnap > 360)
+                        {
+                            _returnValue = "Please enter valid number in degrees";
+                        }
+
                         _returnValue += Term.Satellite.SnapOrbit(targetPosSnap, targetSpeedSnap);
 
                         break;
@@ -334,7 +361,13 @@ public class SatelliteCommand : ICommandable
                         int targetDays;
                         while (!int.TryParse(Print.ReadLn(), out targetDays))
                         {
-                            Print.OutLn("Please enter valid whole number");
+                            Print.OutLn("Please enter valid positive whole number");
+                        }
+
+                        if (targetDays <= 0)
+                        {
+                            _returnValue = "Please enter valid whole number";
+                            break;
                         }
 
                         if (targetBody != null)

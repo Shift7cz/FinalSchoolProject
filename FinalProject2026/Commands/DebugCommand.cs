@@ -21,9 +21,9 @@ public class DebugCommand : ICommandable
     /// <returns>String to print</returns>
     public string Run(List<string> input)
     {
-        if (Menu.YNoption("This command is a dev option. Do you want to continue?", 'n'))
+        try
         {
-            try
+            if (Menu.YNoption("This command is a dev option. Do you want to continue?", 'n'))
             {
                 switch (input[1].ToLower())
                 {
@@ -36,14 +36,14 @@ public class DebugCommand : ICommandable
                     default:
                         return "Expected true/false; Warning: This command is a dev option";
                 }
-            }
-            catch (Exception e)
-            {
-                Print.OutDebug(e.Message);
-                return "Expected true/false; Warning: This command is a dev option";
-            }
-        }
 
-        return "";
+            }
+
+            return "";
+        }
+        catch
+        {
+            return "User error";
+        }
     }
 }

@@ -30,22 +30,22 @@ public static class Menu
                 {
                     if (selected.Contains(i))
                     {
-                        Print.OutLn("■ " + options[i], ConsoleColor.Black, ConsoleColor.White);
+                        Print.OutLn("(*) " + options[i], ConsoleColor.Black, ConsoleColor.White);
                     }
                     else
                     {
-                        Print.OutLn("□ " + options[i], ConsoleColor.Black, ConsoleColor.White);
+                        Print.OutLn("( ) " + options[i], ConsoleColor.Black, ConsoleColor.White);
                     }
                 }
                 else
                 {
                     if (selected.Contains(i))
                     {
-                        Print.OutLn("■ " + options[i]);
+                        Print.OutLn("(*) " + options[i]);
                     }
                     else
                     {
-                        Print.OutLn("□ " + options[i]);
+                        Print.OutLn("( ) " + options[i]);
                     }
                 }
             }
@@ -119,8 +119,7 @@ public static class Menu
             case ConsoleKey.N:
                 return false;
             default:
-                Print.OutLn("Excepted keys [y/n]");
-                return false;
+                throw new Exception("User didnt use the right keys");
         }
     }
 }

@@ -1,0 +1,15 @@
+C:\Users\kubih\RiderProjects\FinalSchoolProject\FinalProject2026\bin\Debug\net9.0\FinalProject2026.exe
+C:\Users\kubih\RiderProjects\FinalSchoolProject\FinalProject2026\bin\Debug\net9.0\FinalProject2026.deps.json
+C:\Users\kubih\RiderProjects\FinalSchoolProject\FinalProject2026\bin\Debug\net9.0\FinalProject2026.runtimeconfig.json
+C:\Users\kubih\RiderProjects\FinalSchoolProject\FinalProject2026\bin\Debug\net9.0\FinalProject2026.dll
+C:\Users\kubih\RiderProjects\FinalSchoolProject\FinalProject2026\bin\Debug\net9.0\FinalProject2026.pdb
+C:\Users\kubih\RiderProjects\FinalSchoolProject\FinalProject2026\obj\Debug\net9.0\FinalProject2026.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\kubih\RiderProjects\FinalSchoolProject\FinalProject2026\obj\Debug\net9.0\FinalProject2026.AssemblyInfoInputs.cache
+C:\Users\kubih\RiderProjects\FinalSchoolProject\FinalProject2026\obj\Debug\net9.0\FinalProject2026.AssemblyInfo.cs
+C:\Users\kubih\RiderProjects\FinalSchoolProject\FinalProject2026\obj\Debug\net9.0\FinalProject2026.csproj.CoreCompileInputs.cache
+C:\Users\kubih\RiderProjects\FinalSchoolProject\FinalProject2026\obj\Debug\net9.0\FinalProject2026.sourcelink.json
+C:\Users\kubih\RiderProjects\FinalSchoolProject\FinalProject2026\obj\Debug\net9.0\FinalProject2026.dll
+C:\Users\kubih\RiderProjects\FinalSchoolProject\FinalProject2026\obj\Debug\net9.0\refint\FinalProject2026.dll
+C:\Users\kubih\RiderProjects\FinalSchoolProject\FinalProject2026\obj\Debug\net9.0\FinalProject2026.pdb
+C:\Users\kubih\RiderProjects\FinalSchoolProject\FinalProject2026\obj\Debug\net9.0\FinalProject2026.genruntimeconfig.cache
+C:\Users\kubih\RiderProjects\FinalSchoolProject\FinalProject2026\obj\Debug\net9.0\ref\FinalProject2026.dll

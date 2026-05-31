@@ -77,9 +77,9 @@ public static class FileRegenerator
 
         sw = new StreamWriter("sat-engine.txt");
         sw.WriteLine("SmallManeuveringEngine engine s 10 100 110 fuel 2");
-        sw.WriteLine("IonEngine engine s 10 100 110 electric 20");
+        sw.WriteLine("EngineFromTemu engine s 27 100 100 fuel 67");
         sw.WriteLine("CommercialEngine engine s 160 100 100000 fuel 120");
-        sw.WriteLine("9PackIonEngine engine m 90 100 990 electric 180");
+        sw.WriteLine("HighTechEngine engine m 1000 100 360000 fuel 210");
         sw.WriteLine("InterplanetaryEngine engine m 2000 100 760000 fuel 320");
         sw.WriteLine("InterstellarEngine engine l 9000 100 1200000 fuel 570");
         sw.Close();
@@ -90,7 +90,7 @@ public static class FileRegenerator
                      " | Sat (Command) \n" + 
                      " | Scan (Command) \n" + 
                      // " | faq (frequently asked questions) \n" +
-                     // " | Tutorial \n \n" + 
+                     " | Tutorial \n \n" + 
                      "Other commands: \n" +
                      " | Objects -> Lists the objects in the current planetary system and their basic information \n" +
                      " | Clear -> Clears the terminal of all previous text \n \n");
@@ -106,21 +106,26 @@ public static class FileRegenerator
         sw.WriteLine("Help for sat [option] command: \n" +
                      " | sat new -> will let you create new satellite. Note that this will also destroy any previous satellite \n" +
                      " | sat status -> will show you satellites status info \n" +
-                     " | sat travel -> will let you travel in the current solar system \n \n" +
+                     " | sat travel [option] -> will let you travel in the current solar system \n \n" +
                      "Help options for sat travel [option] command: \n" +
                      " | sat travel height -> will let you travel to desired height. It will ask you to configure maneuver and than do it. Height option does use timeskip \n" +
                      " | sat travel speed -> will let you change your orbital seed which is tracked in deg/day (degrees a day). Speed option doesnt use timeskip \n" +
                      " | sat travel object -> will let you travel to a desired object in desired time. Note that less time foe manure requires more fuel. Note that this maneuver doesnt change height, only speeds up and moves time\n" +
-                     " | sat travel snap -> will let you to change orbital speed and position by tiny amount. Used for close up correction");
+                     " | sat travel snap -> will let you to change orbital speed and position by tiny amount. Used for close up correction \n \n" +
+                     "How to travel: \n" +
+                     "First figure out where do you want to travel by running the command \"objects\". \n" +
+                     "Once you chose your destination, you are going to need to match its position data. \"sat status\" will let you see these data on your satellite. \n" +
+                     "To match its height (from the sun) you use \"sat travel height\". To match its position use \"sat travel object\" and to match its speed use \"sat travel speed\". \n" +
+                     "");
         sw.Close();
         
         sw = new StreamWriter("help-scan.txt");
-        sw.WriteLine("Allows to scan object if orbital position, speed and height are EXACTLY the ones of an object. use sat travel snap for fine corrections.");
+        sw.WriteLine("Allows to scan object if orbital position when speed and height are equal to the ones of an object. use sat travel snap for fine corrections. There is small tolerance");
         sw.Close();
         
         sw = new StreamWriter("help-tutorial.txt");
         sw.WriteLine("Your goal is to travel do different objects and scan them for points. If you run the command \"objects\" you can see a list of all the objects you can fli to and some of their information. \n" +
-                     "Tobe able to actually do anything you have to first create a satellite by running \"sat new\". There you have to chose a name and parts for your satellite. You have to chose at least one battery, fuel tank and engine. \n" +
+                     "To start you have to first create a satellite by running \"sat new\". You have to chose at least one battery, fuel tank and engine. \n" +
                      "After that you are free to travel wherever you want to go. Use the command \"help sat\" for more information on the traveling mechanics. When you get to the exact positon and speed of a object you can scan it by typing \"scan [object name\". \n" +
                      "Keep in mind that your fuel tanks and batteries will deplete and that batteries degrade overtime, so you dont have infinite time. Once you finish your desired mission and you run out of fuel you can run \"sat new\" for a new satellite \n" +
                      "Type \"help\" for more information.");

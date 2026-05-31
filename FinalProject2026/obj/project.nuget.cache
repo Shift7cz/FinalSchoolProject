@@ -1,12 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "62cgPvStcHY=",
+  "dgSpecHash": "1E9vYXeJpUo=",
   "success": true,
-  "projectFilePath": "/home/lukas/RiderProjects/FinalSchoolProject/FinalProject2026/FinalProject2026.csproj",
-  "expectedPackageFiles": [
-    "/home/lukas/.nuget/packages/microsoft.net.illink.tasks/9.0.16/microsoft.net.illink.tasks.9.0.16.nupkg.sha512",
-    "/home/lukas/.nuget/packages/microsoft.netcore.app.runtime.linux-x64/9.0.16/microsoft.netcore.app.runtime.linux-x64.9.0.16.nupkg.sha512",
-    "/home/lukas/.nuget/packages/microsoft.aspnetcore.app.runtime.linux-x64/9.0.16/microsoft.aspnetcore.app.runtime.linux-x64.9.0.16.nupkg.sha512"
-  ],
+  "projectFilePath": "C:\\Users\\kubih\\RiderProjects\\FinalSchoolProject\\FinalProject2026\\FinalProject2026.csproj",
+  "expectedPackageFiles": [],
   "logs": []
 }

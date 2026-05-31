@@ -1,13 +1,13 @@
 ## Code structure
-- Program begins by calling App class and running the Run function that implements all the other parts of teh program mainly split across environment and terminal.
-- Terminal handles user inputs and calling for Commands, which are structured by classes inside Command folder. Each Command inherits form ICommandable for unified structure.
+- Program begins by calling App class and running the Run function that implements all the other parts of the program mainly split across environment and terminal.
+- The terminal handles user inputs and calling of commands, which are structured by classes inside command folder. Each Command inherits form ICommandable for unified structure.
 - Environment handles planets (SpaceObject) and the satellite. They are grouped by the World class, but a lot of other classes access satellite directly for convenience.
-- Print class handles custom print mechanics allowing for easy debug toggle and full control over printing.
+- Print class handles custom print function, allowing for easy debug toggle and full control over printing.
 - FileRegenerator class handles regeneration of program file saving data in the case that they are either missing entirely or in a bad format.
 
 ## How to play?
-- Once ingame you will be greeted with a welcome message and a terminal you cna type into.
-- For ingame help or tutorial type "help" or "help tutorial" respectively. the "help" command will show you other options for more detailed help options.
+- Once ingame you will be greeted with a welcome message and a terminal you can type into.
+- For ingame help or tutorial type "help" or "help tutorial" respectively. The "help" command will show you other options for more detailed help.
 
 ## Commands
 | Command | Description |
@@ -15,7 +15,7 @@
 | `sat new` | Build a new satellite |
 | `sat status` | Show satellite status |
 | `sat travel height` | Change orbital height |
-| `sat travel speed` | Changes orbital speed |
+| `sat travel speed` | Change orbital speed |
 | `sat travel object` | Travel to a planet |
 | `sat travel snap` | Fine position adjustment |
 | `scan [planet]` | Scan a planet for points |
@@ -27,3 +27,23 @@
 ## Licence
 - This code if fully free and OpenSource for everyone EXCEPT my classmates during the duration of the final project submission window ending May 31. at 23:55 2026.
 - This code comes as is with no warranty.
+
+## Linux support
+Replace .csproj with this for linux support:
+
+
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <OutputType>Exe</OutputType>
+        <TargetFramework>net9.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        
+        <RuntimeIdentifier>linux-x64</RuntimeIdentifier>
+    
+    	<PublishSingleFile>true</PublishSingleFile>
+    	<SelfContained>true</SelfContained>
+    </PropertyGroup>
+
+</Project>
