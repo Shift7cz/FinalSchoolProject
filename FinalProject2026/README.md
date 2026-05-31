@@ -7,6 +7,89 @@
 
 ```mermaid
 classDiagram
+    %% Interfaces
+    class ICommandable {
+        <<interface>>
+        +Terminal Term
+        +string Name
+        +Run(List~string~) string
+    }
+
+    class ISatellitePartable {
+        <<interface>>
+        +string Name
+        +string Type
+        +char Size
+        +int Weight
+        +int Hp
+    }
+
+    class IDegradeable {
+        <<interface>>
+        +int DegradeTime
+    }
+
+    %% Main Classes
+    class App {
+        -bool Debug
+        +Run() void
+        +RunTerminal(Terminal) void
+        +RunEnviroment(Terminal, Satellite) void
+    }
+
+    class Terminal {
+        -List~ICommandable~ CommandList
+        -string TerminalString
+        -World VirtualWorld
+        -Satellite Satellite
+        +Terminal(List~ICommandable~, string, World, Satellite)
+        +static ParseCommand(string) List~string~
+        +Run() void
+    }
+
+    %% Static Utility Classes
+    class Print {
+        <<static>>
+        +static bool Debug
+        +static Out(string) void
+        +static Out(string, ConsoleColor) void
+        +static OutLn(string) void
+        +static OutLn(string, ConsoleColor) void
+        +static OutLn(string, ConsoleColor, ConsoleColor) void
+        +static OutDebug(string) void
+        +static ReadLn() string
+        +static ReadKey() ConsoleKey
+        +static Clear() void
+    }
+
+    class Menu {
+        <<static>>
+        +static SelectMultiple(string, List~string~) List~int~
+        +static YNoption(string, char) bool
+    }
+
+    class Warp {
+        <<static>>
+        +static int MissionTime
+        +static Satellite Sat
+        +static SkipTime(int) bool
+    }
+
+    class PointsManager {
+        <<static>>
+        +static AddPoints(int) void
+        +static GetPoints() int
+        +static ResetPoints() void
+    }
+
+    class FileRegenerator {
+        <<static>>
+        -static PingFile(string) void
+        +static CheckSavedFiles() void
+        +static RegenerateFiles() void
+    }
+
+    %% Satellite System Classes
     class Satellite {
         -string Name
         -bool IsConfigured
@@ -17,6 +100,7 @@ classDiagram
         -List~SatBattery~ SatBattery
         -List~SatFuelTank~ SatFuelTank
         -List~SatEngine~ SatEngine
+        +Satellite()
         +GetAcceleration() double
         +UnifyFuel() void
         +ChangeOrbitalHeight(int) string
@@ -24,6 +108,13 @@ classDiagram
         +SnapOrbit(double, double) string
         +ChangePosition(string, int) string
         +Reset() void
+    }
+
+    class World {
+        -List~SpaceObject~ OrbitingObjects
+        -SpaceObject CentralObject
+        -Satellite Sat
+        +World(List~SpaceObject~, SpaceObject, Satellite)
     }
 
     class SpaceObject {
@@ -34,19 +125,31 @@ classDiagram
         -double OrbitalPos
         -double AngularSpeed
         -double PointsMultiplier
+        +SpaceObject(string, int, double, int, double, double)
         +AddOrbitalPos(double) double
         +CalculateOrbitalPos(double) double
         +ToString() string
+    }
+
+    class PositionTracker {
+        -int Distance
+        -double OrbitalPos
+        -double AngularSpeed
+        +PositionTracker(int, double)
+        +AddOrbitalPos(double) double
+        +CalculateOrbitalPos(double) double
     }
 
     class SatelliteBuilder {
         -List~SatBattery~ SatBatteryList
         -List~SatFuelTank~ SatFuelTankList
         -List~SatEngine~ SatEngineList
+        +SatelliteBuilder()
         +LoadFilesSafe() void
         -LoadFiles() void
     }
 
+    %% Satellite Parts
     class SatBattery {
         -string Name
         -string Type
@@ -57,6 +160,7 @@ classDiagram
         -int BatteryLevel
         -int Capacity
         -int MaxChargeLevel
+        +SatBattery(string, string, char, int, int, int, int, int, int)
         +RecalculateMaxChargeLevel() void
     }
 
@@ -69,6 +173,7 @@ classDiagram
         -int Thrust
         -string FuelType
         -int FuelConsumption
+        +SatEngine(string, string, char, int, int, int, string, int)
     }
 
     class SatFuelTank {
@@ -81,52 +186,104 @@ classDiagram
         -int FuelLevel
         -int AdditionalWeight
         -int FuelWeightPerKg
+        +SatFuelTank(string, string, char, int, int, int, int)
         +RecalculateAdditionalWeight() void
     }
 
-    class PositionTracker {
-        -int Distance
-        -double OrbitalPos
-        -double AngularSpeed
+    %% Commands
+    class ClearCommand {
+        -Terminal Term
+        -string Name
+        +ClearCommand(Terminal, string)
+        +Run(List~string~) string
     }
 
-    class World {
-        -List~SpaceObject~ OrbitingObjects
-        -SpaceObject CentralBody
-        -Satellite Sat
+    class DebugCommand {
+        -Terminal Term
+        -string Name
+        +DebugCommand(Terminal, string)
+        +Run(List~string~) string
     }
 
-    class App {
-        -bool Debug
-        +Run() void
-        +RunTerminal(Terminal) void
-        +RunEnviroment(Terminal, Satellite) void
+    class HelpCommand {
+        -Terminal Term
+        -string Name
+        +HelpCommand(Terminal, string)
+        +Run(List~string~) string
+        +LoadHelperFile(string) string
     }
 
-    class Terminal {
-        -List~ICommandable~ CommandList
-        -Satellite Satellite
-        -World VirtualWorld
-        +Run() void
-        +ParseCommand(string) List~string~
+    class NeofetchCommand {
+        -Terminal Term
+        -string Name
+        +NeofetchCommand(Terminal, string)
+        +Run(List~string~) string
     }
 
-    class Menu {
-        +SelectMultiple(string, List~string~) List~int~
-        +YNoption(string, char) bool
+    class WhoAmICommand {
+        -Terminal Term
+        -string Name
+        +WhoAmICommand(Terminal, string)
+        +Run(List~string~) string
     }
 
-    class ISatellitePartable {
-        <<interface>>
+    class TimeCommand {
+        -Terminal Term
+        -string Name
+        +TimeCommand(Terminal, string)
+        +Run(List~string~) string
     }
 
-    class IDegradeable {
-        <<interface>>
+    class ObjectsCommand {
+        -Terminal Term
+        -string Name
+        +ObjectsCommand(Terminal, string)
+        +Run(List~string~) string
     }
 
-    class ICommandable {
-        <<interface>>
+    class PointsCommand {
+        -Terminal Term
+        -string Name
+        +PointsCommand(Terminal, string)
+        +Run(List~string~) string
     }
+
+    class SatelliteCommand {
+        -Terminal Term
+        -string Name
+        -string _returnValue
+        +SatelliteCommand(Terminal, string)
+        +Run(List~string~) string
+        -OptionNew() void
+        -TravelOption(List~string~) void
+    }
+
+    class ScanCommand {
+        -Terminal Term
+        -string Name
+        +ScanCommand(Terminal, string)
+        +Run(List~string~) string
+    }
+
+    %% Relationships
+    App --> Terminal
+    App --> Satellite
+    App --> World
+
+    Terminal --> ICommandable
+    Terminal --> Satellite
+    Terminal --> World
+
+    ClearCommand --|> ICommandable
+    DebugCommand --|> ICommandable
+    HelpCommand --|> ICommandable
+    NeofetchCommand --|> ICommandable
+    WhoAmICommand --|> ICommandable
+    TimeCommand --|> ICommandable
+    ObjectsCommand --|> ICommandable
+    PointsCommand --|> ICommandable
+    SatelliteCommand --|> ICommandable
+    ScanCommand --|> ICommandable
 
     Satellite --> SatelliteBuilder
     Satellite --> World
@@ -134,25 +291,37 @@ classDiagram
     Satellite --> SatBattery
     Satellite --> SatEngine
     Satellite --> SatFuelTank
-    
+
     SatelliteBuilder --> SatBattery
     SatelliteBuilder --> SatFuelTank
     SatelliteBuilder --> SatEngine
-    
+
     World --> SpaceObject
     World --> Satellite
-    
+
     SatBattery --|> ISatellitePartable
     SatBattery --|> IDegradeable
     SatEngine --|> ISatellitePartable
     SatFuelTank --|> ISatellitePartable
+
+    Warp --> Satellite
     
-    Terminal --> ICommandable
-    Terminal --> Satellite
-    Terminal --> World
+    Print --|> Terminal
+    Print --|> App
+    Print --|> Warp
+    Print --|> FileRegenerator
+
+    Menu --|> Satellite
+    Menu --|> SatelliteCommand
+    Menu --|> DebugCommand
+    Menu --|> PointsCommand
+    Menu --|> FileRegenerator
+
+    PointsManager --|> ScanCommand
     
-    App --> Terminal
-    App --> Satellite
+    FileRegenerator --|> App
+    FileRegenerator --|> SatelliteBuilder
+    FileRegenerator --|> HelpCommand
 ```
 
 ## How to play?
