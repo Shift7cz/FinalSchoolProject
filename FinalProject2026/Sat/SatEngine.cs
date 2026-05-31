@@ -3,7 +3,7 @@ namespace FinalProject2026.Sat;
 /// <summary>
 /// Class that defines the satellite engine part
 /// </summary>
-public class SatEngine : ISatelitePartable
+public class SatEngine : ISatellitePartable
 {
     public string Name { get; set; }
     public string Type { get; set; }

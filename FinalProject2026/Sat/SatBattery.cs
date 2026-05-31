@@ -3,7 +3,7 @@ namespace FinalProject2026.Sat;
 /// <summary>
 /// Battery object
 /// </summary>
-public class SatBattery : ISatelitePartable, IDegradeable
+public class SatBattery : ISatellitePartable, IDegradeable
 {
     public string Name { get; set; }
     public string Type { get; set; }

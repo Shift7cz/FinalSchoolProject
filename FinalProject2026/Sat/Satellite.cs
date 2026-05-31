@@ -22,7 +22,7 @@ public class Satellite
     /// <summary>
     /// Used for building the satellite by terminal
     /// </summary>
-    public SateliteBuilder? Builder { get; set; }
+    public SatelliteBuilder? Builder { get; set; }
     
     /// <summary>
     /// Tracks position
@@ -107,7 +107,7 @@ public class Satellite
                 return "Not enough fuel";
             }
 
-            if (!Menu.YNoption("Do you want to travel? Total fuel consumed " + fuelUsed + "L out of " + UnifiedFuelAmount + "L and maneuver will take " + newHeight + " days ?",
+            if (!Menu.YNoption("Do you want to travel? Total fuel consumed " + fuelUsed + "L out of " + UnifiedFuelAmount + "L and maneuver will take " + deltaR + " days ?",
                     'y'))
             {
                 return "Maneuver canceled";

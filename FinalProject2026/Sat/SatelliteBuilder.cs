@@ -3,7 +3,7 @@ namespace FinalProject2026.Sat;
 /// <summary>
 /// Builds the satellite
 /// </summary>
-public class SateliteBuilder
+public class SatelliteBuilder
 {
     /// <summary>
     /// Partlist
@@ -21,7 +21,7 @@ public class SateliteBuilder
     public List<SatEngine> SatEngineList { get; set; }
     
     
-    public SateliteBuilder()
+    public SatelliteBuilder()
     {
         SatBatteryList = new List<SatBattery>();
         SatFuelTankList = new List<SatFuelTank>();

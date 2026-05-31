@@ -3,7 +3,7 @@ namespace FinalProject2026.Sat;
 /// <summary>
 /// Adds basic option ofr all sat parts - MANDATORY FOR SATELLITE PARTS
 /// </summary>
-public interface ISatelitePartable
+public interface ISatellitePartable
 {
     public string Name { get; set; }
     

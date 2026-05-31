@@ -55,13 +55,32 @@ public class HelpCommand : ICommandable
 
     public string LoadHelperFile(string path)
     {
-        StreamReader sr = new StreamReader(path);
-        string text = "";
-        string? line;
-        while ((line = sr.ReadLine()) != null)
+        try
         {
-            text += line + "\n";
+            StreamReader sr = new StreamReader(path);
+            string text = "";
+            string? line;
+            while ((line = sr.ReadLine()) != null)
+            {
+                text += line + "\n";
+            }
+
+            return text;
         }
-        return text;
+        catch (Exception e)
+        {
+            FileRegenerator.RegenerateFiles();
+            Print.OutDebug(e.Message);
+            
+            StreamReader sr = new StreamReader(path);
+            string text = "";
+            string? line;
+            while ((line = sr.ReadLine()) != null)
+            {
+                text += line + "\n";
+            }
+
+            return text;
+        }
     }
 }

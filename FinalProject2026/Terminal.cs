@@ -3,7 +3,7 @@ using FinalProject2026.Sat;
 namespace FinalProject2026;
 
 /// <summary>
-/// Terlinal calass handeling user inout and calling stuff
+/// Terminal class handling user input and calling commands
 /// </summary>
 public class Terminal
 {
@@ -85,8 +85,7 @@ public class Terminal
 
             if (!hasRan)
             {
-                if (command[0] == "quit" &&
-                    !hasRan) // todo: make it actual object command that saves state and stuff
+                if (command[0] == "quit")
                 {
                     hasQuit = true;
                 }

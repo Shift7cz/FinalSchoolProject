@@ -5,7 +5,7 @@ namespace FinalProject2026.Commands;
 /// <summary>
 /// Controls the satellite
 /// </summary>
-public class SateliteCommand : ICommandable
+public class SatelliteCommand : ICommandable
 {
     public Terminal Term { get; set; }
     public string Name { get; set; }
@@ -15,7 +15,7 @@ public class SateliteCommand : ICommandable
     /// </summary>
     private string _returnValue;
 
-    public SateliteCommand(Terminal term, string name)
+    public SatelliteCommand(Terminal term, string name)
     {
         Term = term;
         Name = name;
@@ -133,10 +133,10 @@ public class SateliteCommand : ICommandable
             Print.OutDebug(Term.Satellite.Name);
 
             List<string> partList;
-            List<ISatelitePartable> partListRaw;
+            List<ISatellitePartable> partListRaw;
 
             partList = new List<string>();
-            partListRaw = new List<ISatelitePartable>();
+            partListRaw = new List<ISatellitePartable>();
 
 
             if (Term.Satellite.Builder != null)
@@ -190,7 +190,7 @@ public class SateliteCommand : ICommandable
 
             for (int i = 0; i < selectedInt.Count; i++)
             {
-                ISatelitePartable part = partListRaw[selectedInt[i]];
+                ISatellitePartable part = partListRaw[selectedInt[i]];
                 if (part is SatBattery)
                 {
                     hasBattery = true;
@@ -226,7 +226,7 @@ public class SateliteCommand : ICommandable
                     if (currentPart == partListRaw[j].Name)
                     {
                         Print.OutDebug("Match part found, its a");
-                        ISatelitePartable currentPartObj = partListRaw[j];
+                        ISatellitePartable currentPartObj = partListRaw[j];
 
                         if (currentPartObj is SatBattery
                             checkedBattery) // checks if object is the required type and wraps it so the compiler doesn't scream

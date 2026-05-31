@@ -57,7 +57,7 @@ public class App
             new NeofetchCommand(t, "neofetch"),
             new ClearCommand(t, "clear"),
             new HelpCommand(t, "help"),
-            new SateliteCommand(t, "sat"),
+            new SatelliteCommand(t, "sat"),
             new TimeCommand(t, "time"),
             new ObjectsCommand(t, "objects"),
             new ScanCommand(t, "scan"),
@@ -87,7 +87,7 @@ public class App
 
         World solarSystem = new World(bodies, centralBody, sat);
         
-        sat.Builder = new SateliteBuilder();
+        sat.Builder = new SatelliteBuilder();
         sat.SolarSystem = solarSystem;
         sat.PosTracker = new PositionTracker(150, 0.986);
         sat.IsConfigured = false;
