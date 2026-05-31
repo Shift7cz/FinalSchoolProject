@@ -5,7 +5,7 @@ namespace FinalProject2026.Satelite;
 /// </summary>
 public class Satellite
 {
-    public string Name { get; set; }
+    public string? Name { get; set; }
     
     public bool IsConfigured { get; set; }
     

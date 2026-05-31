@@ -36,8 +36,6 @@ public class SateliteCommand : ICommandable
                     break;
 
                 case "status":
-                    
-
                     if (Term.Satellite != null)
                     {
                         _returnValue = "Batteries\n";
@@ -112,17 +110,17 @@ public class SateliteCommand : ICommandable
                 Menu.YNoption(
                     "Are you sure you want to do this? you already have an existing satellite and by running this command it will be destroyed",
                     'n');
-            if (proceed) return;
-            
-            Term.Satellite.Reset();
+            if (!proceed) return;
         }
 
         if (Term.Satellite != null)
         {
+            Term.Satellite.Reset();
+            
             Term.Satellite.IsConfigured = true;
 
             Print.Out("Enter name of your satellite: ");
-            string name = Print.ReadLn();
+            string? name = Print.ReadLn();
 
             Term.Satellite.Name = name;
 
@@ -232,76 +230,90 @@ public class SateliteCommand : ICommandable
     {
         if (Term.Satellite != null && Term.Satellite.PosTracker != null)
         {
-            switch (input[2].ToLower())
+            if (Term.Satellite.IsConfigured)
             {
-                case "height":
-                    Print.OutLn(
-                        "Please enter desired height in million km, current height of orbit around the sun is " +
-                        Term.Satellite.PosTracker.Distance + " million km: ");
-                    int targetHeight;
-                    while (!int.TryParse(Print.ReadLn(), out targetHeight))
-                    {
-                        Print.OutLn("Please enter valid whole number");
-                    }
+                switch (input[2].ToLower())
+                {
+                    case "height":
+                        Print.OutLn(
+                            "Please enter desired height in million km, current height of orbit around the sun is " +
+                            Term.Satellite.PosTracker.Distance + " million km: ");
+                        int targetHeight;
+                        while (!int.TryParse(Print.ReadLn(), out targetHeight))
+                        {
+                            Print.OutLn("Please enter valid whole number");
+                        }
 
-                    _returnValue += Term.Satellite.ChangeOrbitalHeight(targetHeight);
+                        _returnValue += Term.Satellite.ChangeOrbitalHeight(targetHeight);
 
-                    break;
-                case "speed":
-                    Print.OutLn("Please enter desired angular speed in degrees/day. Current angular speed is " +
-                                Term.Satellite.PosTracker.AngularSpeed + " deg/day: ");
-                    double targetSpeed;
-                    while (!double.TryParse(Print.ReadLn(), out targetSpeed))
-                    {
-                        Print.OutLn("Please enter valid number");
-                    }
+                        break;
+                    case "speed":
+                        Print.OutLn("Please enter desired angular speed in degrees/day. Current angular speed is " +
+                                    Term.Satellite.PosTracker.AngularSpeed + " deg/day: ");
+                        double targetSpeed;
+                        while (!double.TryParse(Print.ReadLn(), out targetSpeed))
+                        {
+                            Print.OutLn("Please enter valid number");
+                        }
 
-                    _returnValue += Term.Satellite.ChageOrbitalSpeed(targetSpeed);
-    
-                    Print.OutDebug("Term.Satellite is null 3");
+                        _returnValue += Term.Satellite.ChageOrbitalSpeed(targetSpeed);
 
-                    break;
-                case "snap":
-                    Print.OutLn("Please enter desired angular speed in degrees/day. Current angular speed is " +
-                                Term.Satellite.PosTracker.AngularSpeed +
-                                " deg/day. Note that this command is only for fine adjustments up to 1 deg/day : ");
-                    double targetSpeedSnap;
-                    while (!double.TryParse(Print.ReadLn(), out targetSpeedSnap))
-                    {
-                        Print.OutLn("Please enter valid number");
-                    }
+                        Print.OutDebug("Term.Satellite is null 3");
 
-                    Print.OutLn("Please enter desired orbital position in degrees. Current position is " +
-                                Term.Satellite.PosTracker.OrbitalPos +
-                                "°. Note that this command is only for fine adjustments up to 2° : ");
-                    double targetPosSnap;
-                    while (!double.TryParse(Print.ReadLn(), out targetPosSnap))
-                    {
-                        Print.OutLn("Please enter valid number");
-                    }
+                        break;
+                    case "snap":
+                        Print.OutLn("Please enter desired angular speed in degrees/day. Current angular speed is " +
+                                    Term.Satellite.PosTracker.AngularSpeed +
+                                    " deg/day. Note that this command is only for fine adjustments up to 1 deg/day : ");
+                        double targetSpeedSnap;
+                        while (!double.TryParse(Print.ReadLn(), out targetSpeedSnap))
+                        {
+                            Print.OutLn("Please enter valid number");
+                        }
 
-                    _returnValue += Term.Satellite.SnapOrbit(targetPosSnap, targetSpeedSnap);
+                        Print.OutLn("Please enter desired orbital position in degrees. Current position is " +
+                                    Term.Satellite.PosTracker.OrbitalPos +
+                                    "°. Note that this command is only for fine adjustments up to 2° : ");
+                        double targetPosSnap;
+                        while (!double.TryParse(Print.ReadLn(), out targetPosSnap))
+                        {
+                            Print.OutLn("Please enter valid number");
+                        }
 
-                    break;
-                case "object":
-                    Print.OutLn(
-                        "Enter to which body do u want to travel to. Keep in mind that you have to be on the same height to reach its actually position. Use sat travel height to do so if you haven't already: ");
-                    string targetBody = Print.ReadLn();
+                        _returnValue += Term.Satellite.SnapOrbit(targetPosSnap, targetSpeedSnap);
 
-                    Print.OutLn(
-                        "Enter target time in days for the transition. Keep in mind that shorter time results in less fuel usage: ");
-                    int targetDays;
-                    while (!int.TryParse(Print.ReadLn(), out targetDays))
-                    {
-                        Print.OutLn("Please enter valid whole number");
-                    }
+                        break;
+                    case "object":
+                        Print.OutLn(
+                            "Enter to which body do u want to travel to. Keep in mind that you have to be on the same height to reach its actually position. Use sat travel height to do so if you haven't already: ");
+                        string? targetBody = Print.ReadLn();
 
-                    _returnValue = Term.Satellite.ChangePosition(targetBody, targetDays);
-                    break;
+                        Print.OutLn(
+                            "Enter target time in days for the transition. Keep in mind that shorter time results in less fuel usage: ");
+                        int targetDays;
+                        while (!int.TryParse(Print.ReadLn(), out targetDays))
+                        {
+                            Print.OutLn("Please enter valid whole number");
+                        }
 
-                default:
-                    Print.OutLn("Invalid option. Expected: height; speed; snap; object");
-                    break;
+                        if (targetBody != null)
+                        {
+                            _returnValue = Term.Satellite.ChangePosition(targetBody, targetDays);
+                        }
+                        else
+                        {
+                            Print.OutDebug("TargetBody is null");
+                        }
+                        break;
+
+                    default:
+                        Print.OutLn("Invalid option. Expected: height; speed; snap; object");
+                        break;
+                }
+            }
+            else
+            {
+                Print.OutLn("You need to create a satellite first. Run sat new to create a satellite");
             }
         }
         else

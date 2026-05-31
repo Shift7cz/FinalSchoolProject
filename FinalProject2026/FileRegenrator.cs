@@ -22,9 +22,9 @@ public static class FileRegenrator
         try
         {
             PingFile("bodies.txt");
-            PingFile("satBattery.txt");
-            PingFile("satFuelTank.txt");
-            PingFile("satEngine.txt");
+            PingFile("sat-battery.txt");
+            PingFile("sat-fuel-tank.txt");
+            PingFile("sat-engine.txt");
             PingFile("help.txt");
             PingFile("help-time.txt");
             PingFile("help-sat.txt");
