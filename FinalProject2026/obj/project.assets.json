@@ -8,19 +8,19 @@
     "net9.0": []
   },
   "packageFolders": {
-    "C:\\Users\\kubih\\.nuget\\packages\\": {}
+    "/home/lukas/.nuget/packages/": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\kubih\\RiderProjects\\FinalSchoolProject\\FinalProject2026\\FinalProject2026.csproj",
+      "projectUniqueName": "/home/lukas/RiderProjects/FinalSchoolProject/FinalProject2026/FinalProject2026.csproj",
       "projectName": "FinalProject2026",
-      "projectPath": "C:\\Users\\kubih\\RiderProjects\\FinalSchoolProject\\FinalProject2026\\FinalProject2026.csproj",
-      "packagesPath": "C:\\Users\\kubih\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\kubih\\RiderProjects\\FinalSchoolProject\\FinalProject2026\\obj\\",
+      "projectPath": "/home/lukas/RiderProjects/FinalSchoolProject/FinalProject2026/FinalProject2026.csproj",
+      "packagesPath": "/home/lukas/.nuget/packages/",
+      "outputPath": "/home/lukas/RiderProjects/FinalSchoolProject/FinalProject2026/obj/",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\kubih\\AppData\\Roaming\\NuGet\\NuGet.Config"
+        "/home/lukas/.nuget/NuGet/NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "net9.0"
@@ -65,7 +65,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Users\\kubih\\.dotnet\\sdk\\9.0.306/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "/home/lukas/.dotnet/sdk/9.0.314/PortableRuntimeIdentifierGraph.json"
       }
     }
   }

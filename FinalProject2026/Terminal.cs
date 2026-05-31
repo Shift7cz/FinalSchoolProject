@@ -59,7 +59,7 @@ public class Terminal
     /// </summary>
     public void Run()
     {
-        Print.OutLn("Type \"help\" for help or \"help tutorial\" for tutorial. Use external README for list of commands. You can type now.");
+        Print.OutLn("Type \"help tutorial\" for tutorial. Use external README for list of commands. You can type now.");
         
         bool hasQuit = false;
 
